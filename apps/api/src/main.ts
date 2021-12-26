@@ -3,8 +3,8 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { ClassSerializerInterceptor, Logger, ValidationPipe } from '@nestjs/common';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
 
 import { AppModule } from './app/app.module';
@@ -16,7 +16,16 @@ async function bootstrap() {
 		{ cors: true }
 	);
   const globalPrefix = 'api';
+  const reflector = app.get(Reflector);
+
   app.setGlobalPrefix(globalPrefix);
+  app.useGlobalInterceptors(
+		// new HttpResponseInterceptor(), // REMOVED FOR NOW
+		new ClassSerializerInterceptor(reflector),
+		// new TransformInterceptor()
+	);
+	app.useGlobalPipes(new ValidationPipe());
+
   const port = process.env.PORT || 3333;
   await app.listen(port);
   Logger.log(

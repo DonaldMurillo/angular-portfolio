@@ -1,21 +1,20 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
-
+import { Entity, Column } from "typeorm";
+import { BaseEntity } from '../../../shared/entities/base.entity';
 @Entity()
-export class User {
-
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+export class User extends BaseEntity  {
 
     @Column()
-    firstName: string;
-
-    @Column()
-    lastName: string;
+    username: string;
 
 	  @Column()
     email: string;
 
     @Column()
-    isActive: boolean;
+    password: string;
 
+    //failed attemps
+    //last failed attempt
+    //last login
+    //reset password status
+    //reset password last request
 }

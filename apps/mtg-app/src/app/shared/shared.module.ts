@@ -3,18 +3,16 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { PRIME_MODULES } from './primeng';
-import { ButtonModule } from 'primeng/button';
-// import { FlexLayoutModule } from '@angular/flex-layout';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 const MODULES = [
-	// PRIME_MODULES,
+	PRIME_MODULES,
 	HttpClientModule,
 	CommonModule,
-	// FlexLayoutModule,
+	FlexLayoutModule,
 	ReactiveFormsModule,
 	FormsModule,
-	ButtonModule
 ];
 
 @NgModule({

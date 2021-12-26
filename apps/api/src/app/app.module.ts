@@ -7,13 +7,13 @@ import { config } from 'dotenv';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { defaultConnection } from './configs/typeorm.config';
+import { UserProfileModule } from './modules/user-profile/user-profile.module';
 
 config();
 
 @Module({
   imports: [
     //.env config
-    AuthModule,
     ConfigModule.forRoot({
       envFilePath: ['.env']
     }),
@@ -21,9 +21,11 @@ config();
       imports: [ConfigModule],
       useFactory: defaultConnection,
       inject: [ConfigService],
-  }),
+    }),
+    AuthModule,
+    UserProfileModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

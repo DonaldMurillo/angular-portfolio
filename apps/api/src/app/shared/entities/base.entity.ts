@@ -21,7 +21,10 @@ export class BaseEntity {
   })
   updatedAt: Date;
 
-  @Column()
+  @Column({
+    default: true,
+    nullable: false,
+  })
   isActive: boolean;
 
 }

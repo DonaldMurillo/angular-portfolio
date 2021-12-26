@@ -8,16 +8,21 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
+  @Post('user-signup')
   create(@Body() createAuthDto: CreateUserDto) {
     return this.authService.create(createAuthDto);
   }
 
   @Post('user-login')
   login(@Body() credentialsDto: CredentialsDto) {
-    console.log(credentialsDto);
     return 'lola';
   }
+
+   @Patch('password-update')
+   update(@Body() updateAuthDto: UpdateUserDto) {
+     // get username from auth token
+     // return this.authService.update(updateAuthDto);
+   }
 
   // @Get()
   // findAll() {

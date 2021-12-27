@@ -1,24 +1,29 @@
-import { Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { tryAndSaveEntity } from '../../shared/utils/base-functions';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { JwtPayload } from '@angular-portfolio/api-interfaces';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
 
-  constructor(@InjectRepository(User) private userRepository: Repository<User>) {}
+  constructor(@InjectRepository(User) private userRepository: Repository<User>, private jwtService: JwtService) {}
 
   async create(createUserDto: CreateUserDto) {
-    // encrypt userdto pass
-    const user = this.userRepository.create(createUserDto);
-    const createdUser = await tryAndSaveEntity(user, this.userRepository);
-    // login
-    // return request token
+    const { password, ...dto } = createUserDto;
+		const salt = await bcrypt.genSalt();
+		const hashedPassword = await bcrypt.hash(password, salt);
+		const toCreate: CreateUserDto = { ...dto, password: hashedPassword };
 
-    // return createdUser;
+    const user = this.userRepository.create(toCreate);
+    await tryAndSaveEntity(user, this.userRepository);
+
+    return this.signIn(createUserDto);
   }
 
   findAll() {
@@ -36,4 +41,25 @@ export class AuthService {
   remove(id: number) {
     return `This action removes a #${id} auth`;
   }
+
+  private async comparePassword(password: string, hashedPassword: string): Promise<boolean> {
+		return bcrypt.compare(password, hashedPassword);
+	}
+
+  async signIn(dto: CreateUserDto): Promise<{ accessToken: string }> {
+		const { username, password } = dto;
+		const user = (await this.userRepository.findOne({username}));
+		if (user && (await this.comparePassword(password, user.password))) {
+
+			// const isCustomer = user.type === UserType.CUSTOMER;
+			// const isAdmin = user.type === UserType.ADMIN;
+			// const isCompany = user.type === UserType.COMPANY;
+
+			const payload: JwtPayload = { username };
+			const accessToken: string = await this.jwtService.signAsync(payload);
+			return { accessToken };
+		} else {
+			throw new UnauthorizedException('Please check your login credentials');
+		}
+	}
 }

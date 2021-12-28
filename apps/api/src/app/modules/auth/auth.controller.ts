@@ -15,7 +15,7 @@ export class AuthController {
 
 	@Post('user-login')
 	login(@Body() credentialsDto: CredentialsDto) {
-		return 'lola';
+		return this.authService.signIn(credentialsDto);
 	}
 
 	@Patch('password-update')

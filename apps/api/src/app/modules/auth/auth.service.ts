@@ -8,17 +8,18 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { JwtPayload } from '@angular-portfolio/api-interfaces';
 import { JwtService } from '@nestjs/jwt';
+import { CredentialsDto } from './dto/credentials.dto';
 
 @Injectable()
 export class AuthService {
 
-  constructor(@InjectRepository(User) private userRepository: Repository<User>, private jwtService: JwtService) {}
+  constructor(@InjectRepository(User) private userRepository: Repository<User>, private jwtService: JwtService) { }
 
   async create(createUserDto: CreateUserDto) {
     const { password, ...dto } = createUserDto;
 		const salt = await bcrypt.genSalt();
 		const hashedPassword = await bcrypt.hash(password, salt);
-		const toCreate: CreateUserDto = { ...dto, password: hashedPassword };
+		const toCreate: CreateUserDto = { ...dto, password: hashedPassword};
 
     const user = this.userRepository.create(toCreate);
     await tryAndSaveEntity(user, this.userRepository);
@@ -30,8 +31,8 @@ export class AuthService {
     return `This action returns all auth`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
+  findOne(username: string) {
+    return this.userRepository.findOne({ username });
   }
 
   update(id: number, updateAuthDto: UpdateUserDto) {
@@ -46,7 +47,7 @@ export class AuthService {
 		return bcrypt.compare(password, hashedPassword);
 	}
 
-  async signIn(dto: CreateUserDto): Promise<{ accessToken: string }> {
+  async signIn(dto: CredentialsDto): Promise<{ accessToken: string }> {
 		const { username, password } = dto;
 		const user = (await this.userRepository.findOne({username}));
 		if (user && (await this.comparePassword(password, user.password))) {

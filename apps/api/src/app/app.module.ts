@@ -8,6 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { defaultConnection } from './configs/typeorm.config';
 import { UserProfileModule } from './modules/user-profile/user-profile.module';
+import { PassportModule } from '@nestjs/passport';
 
 config();
 

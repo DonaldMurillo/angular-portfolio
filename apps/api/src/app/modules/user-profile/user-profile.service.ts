@@ -15,7 +15,6 @@ export class UserProfileService {
   async create(createUserProfileDto: CreateUserProfileDto, user: User) {
     const userProfile = this.userProfileRepository.create({ ...createUserProfileDto, user });
     const { user: myUser, ...profile } = await tryAndSaveEntity(userProfile, this.userProfileRepository);
-    console.log(myUser)
     return profile;
   }
 

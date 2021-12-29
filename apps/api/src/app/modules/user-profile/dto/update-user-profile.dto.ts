@@ -1,8 +1,15 @@
-import { CreateUserProfileDto } from './create-user-profile.dto';
 import { IsAlphanumeric, IsBoolean, IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateUserProfileDto {
 
+  @ApiProperty({
+    description: 'is alphanumeric',
+    required: true,
+    format: 'string',
+    minLength: 4,
+    maxLength: 20
+  })
   @IsNotEmpty()
 	@IsAlphanumeric()
 	@Length(4, 20)
@@ -14,10 +21,21 @@ export class UpdateUserProfileDto {
   //})
   //avatarImage: Buffer
 
+  @ApiProperty({
+    description: 'Allows trades to be published globaly',
+    required: false,
+    format: 'boolean'
+  })
   @IsOptional()
 	@IsBoolean()
 	showTrades: boolean
 
+  @ApiProperty({
+    description: 'Set theme to be applied on user profile',
+    required: false,
+    format: 'string'
+
+  })
 	@IsOptional()
 	@IsString()
 	theme: string

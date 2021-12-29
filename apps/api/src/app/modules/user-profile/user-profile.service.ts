@@ -13,10 +13,8 @@ export class UserProfileService {
   constructor(@InjectRepository(UserProfile) private userProfileRepository: Repository<UserProfile>) {}
 
   async create(createUserProfileDto: CreateUserProfileDto, user: User) {
-
     const userProfile = this.userProfileRepository.create({ ...createUserProfileDto, user });
     const { user: myUser, ...profile } = await tryAndSaveEntity(userProfile, this.userProfileRepository);
-    console.log(myUser)
     return profile;
   }
 

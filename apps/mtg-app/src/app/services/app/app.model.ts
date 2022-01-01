@@ -8,6 +8,6 @@ export interface AppState {
 
 export function createInitialState(): AppState {
 	return {
-		theme: 'light'
+		theme: 'light',
 	};
 }

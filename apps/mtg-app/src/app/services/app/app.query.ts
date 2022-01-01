@@ -10,12 +10,13 @@ import { AppStore } from './app.store';
 export class AppQuery extends Query<AppState> {
 
 	private menuItems$ = new BehaviorSubject<MenuItem[]>([])
+
 	constructor(protected override store: AppStore, private service: AppService) {
 		super(store);
 
-		this.select('theme').subscribe(theme =>{
+		this.select('theme').subscribe(theme => {
 			const styles = document?.getElementById('darkTheme') as HTMLLinkElement;
-			styles.href = `assets/styles/lara-${theme}-purple/theme.css`
+			styles.href = `assets/styles/lara-${theme}-purple/theme.css`;
 			this.menuItems$.next(this.setMenu(theme))
 		})
 	}
@@ -25,38 +26,20 @@ export class AppQuery extends Query<AppState> {
 	}
 
 	private setMenu(theme: AppTheme): MenuItem[] {
-		
-		return [{
-			label: 'Options',
-			items: [{
-				 label:  `${theme === 'dark' ? 'Light Mode' : 'Dark Mode'}`,
-				 icon: 'pi pi-refresh',
-				 escape: false,
-				 command: () => {
-					  this.service.toggleTheme();
-				 }
+
+		return [
+			{
+				label: `${theme === 'dark' ? 'Light Mode' : 'Dark Mode'}`,
+				icon: `pi ${theme === 'dark' ? 'pi-sun' : 'pi-moon'}`,
+				command: () => {
+					this.service.toggleTheme();
+				}
 			},
 			{
-				 label: 'Delete',
-				 icon: 'pi pi-times',
-				//  command: () => {
-				// 	  this.delete();
-				//  }
-			}
-			]},
-			{
-				 label: 'Navigate',
-				 items: [{
-					  label: 'Angular',
-					  icon: 'pi pi-external-link',
-					  url: 'http://angular.io'
-				 },
-				 {
-					  label: 'Router',
-					  icon: 'pi pi-upload',
-					  routerLink: '/fileupload'
-				 }
-			]}
-		];
+				label: `Account`,
+				icon: `pi pi-user`,
+				routerLink: 'user'
+			},
+		]
 	}
 }

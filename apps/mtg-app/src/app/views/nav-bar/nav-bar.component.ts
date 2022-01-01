@@ -1,8 +1,9 @@
+import { AppTheme } from './../../services/app/app.model';
 import { AppQuery } from './../../services/app/app.query';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Observable } from 'rxjs';
+import { AppService } from '../../services/app/app.service';
 
 @Component({
   selector: 'ap-nav-bar',
@@ -12,11 +13,16 @@ import { Observable } from 'rxjs';
 export class NavBarComponent implements OnInit {
 
 	items$!: Observable<MenuItem[]>;
+	theme$!: Observable<AppTheme>;
 
-	constructor(private query: AppQuery) { }
+	constructor(private query: AppQuery, private service: AppService) { }
 
 	ngOnInit(): void {
 		this.items$ = this.query.selectMenuItems();
+		this.theme$ = this.query.select('theme');
 	}
 
+	toggleTheme() {
+		this.service.toggleTheme();
+	}
 }

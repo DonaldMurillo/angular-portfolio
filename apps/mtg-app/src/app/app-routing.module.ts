@@ -1,3 +1,5 @@
+import { UserComponent } from './views/user/user.component';
+import { SearchComponent } from './views/search/search.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -5,12 +7,15 @@ import { RouterModule, Routes } from '@angular/router';
 //ng generate module customers --route customers --module app.module
 const routes: Routes = [
 
-    { path: '', redirectTo: 'home', pathMatch: 'full' },
-    { path: '**', redirectTo: 'home', pathMatch: 'full' }, // TODO: MAKE 404 PAGE;
+	{ path: '', redirectTo: 'search', pathMatch: 'full' },
+	{ path: 'search', component: SearchComponent, pathMatch: 'full' },
+	{ path: 'user', component: UserComponent, pathMatch: 'full' },
+
+	{ path: '**', redirectTo: 'search', pathMatch: 'full' }, // TODO: MAKE 404 PAGE;
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes, { enableTracing: false })],
-    exports: [RouterModule],
+	imports: [RouterModule.forRoot(routes, { enableTracing: false })],
+	exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

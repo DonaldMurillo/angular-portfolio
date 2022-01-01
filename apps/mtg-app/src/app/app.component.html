@@ -1,11 +1,10 @@
 <div class="app-container">
 	<header>
-		Header
-		<!-- <p-inputSwitch [ngModel]="isDarkMode" (onChange)="toggleTheme()"></p-inputSwitch> -->
-		<!-- <button type="button" pButton icon="pi pi-bars" label="Show" (click)="menu.toggle($event)"></button> -->
 		<ap-nav-bar></ap-nav-bar>
 	</header>
-	<section>section</section>
+	<section>
+		<router-outlet></router-outlet>
+	</section>
 	<footer>
 		<ap-footer></ap-footer>
 	</footer>

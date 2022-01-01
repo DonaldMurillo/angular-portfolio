@@ -9,10 +9,15 @@
 	<div fxHide.lt-md="{true}" class="app-nav-section">
 		<a class="clickable" (click)="toggleTheme()">
 			<i class="pi {{theme === 'dark' ? 'pi-sun' : 'pi-moon'}}"></i>
-			{{theme === 'dark' ? 'Light Mode': 'Dark Mode'}}</a>
-		<a routerLink="user">
+			{{theme === 'dark' ? 'Light Mode': 'Dark Mode'}}
+		</a>
+		<a routerLink="{{userId ? 'user/' + userId + '/my-account': 'user/login'}}">
 			<i class="pi pi-user"></i>
-			Account
+			{{userId ? 'Account': 'Log in'}}
+		</a>
+		<a  routerLink="user/signup" *ngIf="!userId">
+			<i class="pi pi-user-plus"></i>
+			Register
 		</a>
 	</div>
 	<div fxHide.gt-sm="{true}">

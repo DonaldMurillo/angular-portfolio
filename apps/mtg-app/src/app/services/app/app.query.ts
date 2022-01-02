@@ -6,13 +6,14 @@ import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { AppState, AppTheme } from './app.model';
 import { AppService } from './app.service';
 import { AppStore } from './app.store';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class AppQuery extends Query<AppState> {
 
 	private menuItems$ = new BehaviorSubject<MenuItem[]>([])
 
-	constructor(protected override store: AppStore, private service: AppService, private authQuery: AuthQuery) {
+	constructor(protected override store: AppStore, private service: AppService, private authQuery: AuthQuery, private authService: AuthService) {
 		super(store);
 		combineLatest([
 			this.select('theme'),
@@ -50,6 +51,11 @@ export class AppQuery extends Query<AppState> {
 			icon: `pi pi-user-plus`,
 			routerLink: `user/signup`
 		})
+		else menu.push({
+			label: `Log out`,
+			icon: `pi pi-power-off`,
+			command: () => this.authService.userLogOut()
+		}) 
 
 		return menu;
 	}

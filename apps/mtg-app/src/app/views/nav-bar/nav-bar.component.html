@@ -15,10 +15,16 @@
 			<i class="pi pi-user"></i>
 			{{userId ? 'Account': 'Log in'}}
 		</a>
-		<a  routerLink="user/signup" *ngIf="!userId">
+		<a  routerLink="user/signup" *ngIf="!userId else logOut">
 			<i class="pi pi-user-plus"></i>
 			Register
 		</a>
+		<ng-template #logOut>
+			<a class="clickable" (click)="logout()">
+				<i class="pi pi-power-off"></i>
+				Log out
+			</a>
+		</ng-template>
 	</div>
 	<div fxHide.gt-sm="{true}">
 

@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../../../services/auth/auth.service';
 import { Observable, takeUntil, Subject, combineLatest, startWith } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { passwordPattern } from '../../../shared/constants/regex';
 
 interface PasswordCheck {
 	hasLowercase: boolean;
@@ -21,7 +22,7 @@ interface PasswordCheck {
 export class UserSignupComponent implements OnInit, OnDestroy {
 
 	private destroy$ = new Subject();
-	private pattern = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,30}$/;
+	private pattern = passwordPattern;
 
 	isLoading$!: Observable<boolean>;
 	passwordCheck!: PasswordCheck;
@@ -59,7 +60,7 @@ export class UserSignupComponent implements OnInit, OnDestroy {
 
 	checkFormControl(controlName: string) {
 		const control = this.form.get(controlName);
-		return control?.dirty && control.invalid;
+		return control?.dirty && control?.invalid;
 	}
 
 	continue() {

@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth/auth.service';
 import { AuthQuery } from './../../services/auth/auth.query';
 import { AppTheme } from './../../services/app/app.model';
 import { AppQuery } from './../../services/app/app.query';
@@ -18,7 +19,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
 	theme$!: Observable<AppTheme>;
 	userId: string | undefined;
 
-	constructor(private query: AppQuery, private service: AppService, private authQuery: AuthQuery) { }
+	constructor(private query: AppQuery, private service: AppService, private authQuery: AuthQuery, private authService: AuthService) { }
 	
 	ngOnInit(): void {
 		this.items$ = this.query.selectMenuItems();
@@ -28,6 +29,10 @@ export class NavBarComponent implements OnInit, OnDestroy {
 	
 	toggleTheme() {
 		this.service.toggleTheme();
+	}
+
+	logout() {
+		this.authService.userLogOut();
 	}
 
 	ngOnDestroy(): void {

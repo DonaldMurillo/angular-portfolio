@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthQuery } from '../../../services/auth/auth.query';
 import { AuthService } from '../../../services/auth/auth.service';
-import { passwordPattern } from '../../../shared/constants/regex';
 
 @Component({
 	selector: 'ap-user-login',
@@ -24,7 +23,6 @@ export class UserLoginComponent implements OnInit {
 	ngOnInit() {
 		this.isLoading$ = this.query.select('isLoading');
 	}
-
 
 	checkFormControl(controlName: string) {
 		const control = this.form.get(controlName);

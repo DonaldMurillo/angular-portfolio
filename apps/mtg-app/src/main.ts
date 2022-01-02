@@ -16,8 +16,9 @@ const storage = persistState({
 		// SAVE THE TOKEN AND EXPIRATION
 		if (storeName === 'auth') {
 			return {
+				...state,
 				accessToken: state.accessToken,
-				exp: state.exp,
+				userType: state.userType ?? 'user'
 			};
 		}
 
@@ -27,7 +28,7 @@ const storage = persistState({
 		// DECODES THE TOKEN AND REHYDRATES THE STORE
 		if (storeName === 'auth') {
 			const authUser = jwt_decode<AuthState>(state.accessToken);
-			return { ...authUser, accessToken: state.accessToken };
+			return { ...authUser, accessToken: state.accessToken, userType: authUser.userType ?? 'user' };
 		}
 		return state;
 	},

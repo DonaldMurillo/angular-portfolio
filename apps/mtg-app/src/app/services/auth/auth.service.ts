@@ -32,7 +32,7 @@ export class AuthService {
 				next: ({ accessToken }) => {
 					const authUser = jwt_decode<AuthState>(accessToken);
 					this.authStore.update({ ...authUser, accessToken: accessToken, userType: authUser.userType ?? 'user' });
-					this.router.navigate(['users', authUser.userId, 'create-profile']);
+					this.router.navigate(['user', authUser.userId, 'create-profile']);
 				},
 				error: (error: HttpErrorResponse) => {
 					this.messageService.add({ key: 'tc', severity: 'error', summary: 'error', detail: error.error.message, });
@@ -52,7 +52,7 @@ export class AuthService {
 				next: ({ accessToken }) => {
 					const authUser = jwt_decode<AuthState>(accessToken);
 					this.authStore.update({ ...authUser, accessToken: accessToken, userType: authUser.userType ?? 'user' });
-					this.router.navigate(['users', authUser.userId, 'my-account']);
+					this.router.navigate(['user', authUser.userId, 'my-account']);
 				},
 				error: (error: HttpErrorResponse) => {
 					this.messageService.add({ key: 'tc', severity: 'error', summary: 'error', detail: error.error.message });

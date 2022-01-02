@@ -31,11 +31,10 @@ export class AuthService {
 			.subscribe({
 				next: ({ accessToken }) => {
 					const authUser = jwt_decode<AuthState>(accessToken);
-					this.authStore.update({ ...authUser, accessToken: accessToken });
+					this.authStore.update({ ...authUser, accessToken: accessToken, userType: authUser.userType ?? 'user' });
 					this.router.navigate(['users', authUser.userId, 'create-profile']);
 				},
 				error: (error: HttpErrorResponse) => {
-					// TODO: ADD ERROR TOAST
 					this.messageService.add({ key: 'tc', severity: 'error', summary: 'error', detail: error.error.message, });
 					this.authStore.update(state => ({ ...state, isLoading: false }));
 				},
@@ -52,13 +51,12 @@ export class AuthService {
 			.subscribe({
 				next: ({ accessToken }) => {
 					const authUser = jwt_decode<AuthState>(accessToken);
-					this.authStore.update({ ...authUser, accessToken: accessToken });
+					this.authStore.update({ ...authUser, accessToken: accessToken, userType: authUser.userType ?? 'user' });
 					this.router.navigate(['users', authUser.userId, 'my-account']);
 				},
 				error: (error: HttpErrorResponse) => {
-					// TODO: ADD ERROR TOAST
-					this.messageService.add({ key: 'tc', severity: 'error', summary: 'error', detail: error.error.message, }),
-						this.authStore.update(state => ({ ...state, isLoading: false }));
+					this.messageService.add({ key: 'tc', severity: 'error', summary: 'error', detail: error.error.message });
+					this.authStore.update(state => ({ ...state, isLoading: false }));
 				},
 				complete: () => {
 					this.authStore.update(state => ({ ...state, isLoading: false }));

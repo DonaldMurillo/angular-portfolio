@@ -41,7 +41,7 @@ export class AppQuery extends Query<AppState> {
 			{
 				label: `${userId ? 'Account' : 'Log in'}`,
 				icon: `pi pi-user`,
-				routerLink: `${userId ? 'user/' + userId + '/my-accouunt' : 'user/login'}`
+				routerLink: `${userId ? 'user/' + userId + '/my-account' : 'user/login'}`
 			},
 		]
 		

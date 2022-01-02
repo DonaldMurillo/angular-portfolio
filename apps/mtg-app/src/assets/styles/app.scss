@@ -23,7 +23,12 @@ body {
 	grid-template: 10vh 80vh 10vh / auto;
 	overflow: hidden;
 
+	> section {
+		overflow: auto;
+	}
 	.app-nav {
+		background-color: var(--surface-d);
+
 		display: flex;
 		justify-content: space-between;
 		width: 100%;
@@ -52,5 +57,48 @@ body {
 
 	&.mobile {
 
+	}
+}
+
+.form-container {
+	
+	max-width: 30rem;
+	padding: 2rem;
+	margin: auto;
+
+	& * {
+		width: 100%;
+	}
+
+	.form-title {
+		margin-top: unset;
+	}
+
+	.p-field {
+		margin-bottom: 1rem;
+		> * {
+			margin-bottom: 0.2rem;
+		}
+	}
+
+	.password-check-list {
+		padding-inline-start: unset;
+		
+		li {
+			// display: flex;
+			list-style-type: none;
+			> * {
+				display: inline;
+				margin-right: 0.5rem;
+			}
+
+			> i.pi-check {
+				color: rgb(64, 175, 64);
+			}
+
+			> i.pi-times {
+				color: red;
+			}
+		}
 	}
 }

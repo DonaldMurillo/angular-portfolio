@@ -56,7 +56,7 @@ export class AuthService {
 			// const isAdmin = user.type === UserType.ADMIN;
 			// const isCompany = user.type === UserType.COMPANY;
 
-			const payload: JwtPayload = { username };
+			const payload: JwtPayload = { username, userId: user.id };
 			const accessToken: string = await this.jwtService.signAsync(payload);
 			return { accessToken };
 		} else {

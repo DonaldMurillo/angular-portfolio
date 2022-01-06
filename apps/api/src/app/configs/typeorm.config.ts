@@ -14,6 +14,7 @@ import { ConfigService } from '@nestjs/config';
     database: config.get('TYPEORM_DATABASE'),
     autoLoadEntities: config.get('TYPEORM_AUTOLOAD'),
     synchronize: config.get('TYPEORM_SYNCHRONIZE') == 'true',
-    logging: config.get('TYPEORM_LOGGING') == 'true'
+    logging: config.get('TYPEORM_LOGGING') == 'true',
+    
 });
 

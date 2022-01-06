@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UnauthorizedException } from '@nestjs/common';
 import { UserProfileService } from './user-profile.service';
 import { CreateUserProfileDto } from './dto/create-user-profile.dto';
 import { UpdateUserProfileDto } from './dto/update-user-profile.dto';
@@ -6,6 +6,7 @@ import { User } from '../auth/entities/user.entity';
 import { GetUser } from '../../shared/decorators/get-user.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
+import { UserType } from '../../shared/enums/auth.enum';
 
 
 /*
@@ -23,7 +24,7 @@ export class UserProfileController {
   @Post('create-profile')
   /*swagger tag responses
   @ApiResponse({ status: 201, description: 'The record has been successfully created.'})*/
-  create(@GetUser() user: User, @Body() createUserProfileDto: CreateUserProfileDto) {
+  create(@GetUser(UserType.user) user: User, @Body() createUserProfileDto: CreateUserProfileDto) {
     return this.userProfileService.create(createUserProfileDto, user);
   }
 

@@ -1,0 +1,25 @@
+<nav class="app-nav"  *ngIf="theme$ | async; let theme">
+
+	<div class="app-nav-section">
+		<a routerLink="search">
+			<!-- <i class="pi pi-user"></i> -->
+			MTG App
+		</a>
+	</div>
+	<div fxHide.lt-md="{true}" class="app-nav-section">
+		<a class="clickable" (click)="toggleTheme()">
+			<i class="pi {{theme === 'dark' ? 'pi-sun' : 'pi-moon'}}"></i>
+			{{theme === 'dark' ? 'Light Mode': 'Dark Mode'}}</a>
+		<a routerLink="user">
+			<i class="pi pi-user"></i>
+			Account
+		</a>
+	</div>
+	<div fxHide.gt-sm="{true}">
+
+		<button pButton pRipple type="button" icon="pi pi-bars" 
+			class="p-button-rounded p-button-info p-button-outlined" (click)="menu.toggle($event)">
+		</button>
+	</div>
+</nav>
+<p-menu #menu [popup]="true" [model]="(items$ | async) ?? []"></p-menu>

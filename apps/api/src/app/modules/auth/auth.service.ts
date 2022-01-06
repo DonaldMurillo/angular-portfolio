@@ -17,10 +17,10 @@ export class AuthService {
   constructor(@InjectRepository(User) private userRepository: Repository<User>, private jwtService: JwtService) { }
 
   async create(createUserDto: CreateUserDto) {
-    const { password, ...dto } = createUserDto;
-		const salt = await bcrypt.genSalt();
-		const hashedPassword = await bcrypt.hash(password, salt);
-		const toCreate: CreateUserDto = { ...dto, password: hashedPassword, userType: UserType.user};
+    // const { password, ...dto } = createUserDto;
+		// const salt = await bcrypt.genSalt();
+		// const hashedPassword = await bcrypt.hash(password, salt);
+		const toCreate: CreateUserDto = { ...createUserDto, userType: UserType.user};
 
     const user = this.userRepository.create(toCreate);
     await tryAndSaveEntity(user, this.userRepository);

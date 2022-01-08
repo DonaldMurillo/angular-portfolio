@@ -4,6 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { CredentialsDto } from './dto/credentials.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { UserType } from '../../shared/enums/auth.enum';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -17,14 +18,24 @@ export class AuthController {
 
 	@Post('user-login')
 	login(@Body() credentialsDto: CredentialsDto) {
-		return this.authService.signIn(credentialsDto);
+		return this.authService.signIn(credentialsDto, UserType.user);
 	}
+
+	@Post('admin-login')
+	adminLogin(@Body() credentialsDto: CredentialsDto) {
+		return this.authService.signIn(credentialsDto, UserType.admin);
+	}
+
+
 
 	@Patch('password-update')
 	update(@Body() updateAuthDto: UpdateUserDto) {
 		// get username from auth token
 		// return this.authService.update(updateAuthDto);
 	}
+
+
+
 
 	// @Get()
 	// findAll() {

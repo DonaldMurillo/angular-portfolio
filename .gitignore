@@ -42,3 +42,7 @@ Thumbs.db
 
 #Enviroment Variables
 .env
+
+
+/apps/api/src/app/database/factories
+/apps/api/src/app/database/seeds

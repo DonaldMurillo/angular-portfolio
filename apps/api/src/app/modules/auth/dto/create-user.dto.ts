@@ -12,4 +12,6 @@ export class CreateUserDto extends CredentialsDto {
 	@IsNotEmpty()
 	email: string;
 
+  userType: string;
+
 }

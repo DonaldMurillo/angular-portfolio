@@ -1,3 +1,4 @@
+import { UserQuery } from './../user/user.query';
 import { AuthQuery } from './../auth/auth.query';
 import { Injectable } from '@angular/core';
 import { Query } from '@datorama/akita';
@@ -11,18 +12,25 @@ import { AuthService } from '../auth/auth.service';
 @Injectable({ providedIn: 'root' })
 export class AppQuery extends Query<AppState> {
 
-	private menuItems$ = new BehaviorSubject<MenuItem[]>([])
+	private menuItems$ = new BehaviorSubject<MenuItem[]>([]);
 
-	constructor(protected override store: AppStore, private service: AppService, private authQuery: AuthQuery, private authService: AuthService) {
+	constructor(
+		protected override store: AppStore, 
+		private service: AppService, 
+		private authQuery: AuthQuery, 
+		private authService: AuthService,
+		private userQuery: UserQuery) {
 		super(store);
 		combineLatest([
 			this.select('theme'),
-			this.authQuery.select()
+			this.authQuery.select(),
+			this.userQuery.select('theme')
 		])
-		.subscribe(([theme, authUser]) => {
+		.subscribe(([theme, authUser, userTheme]) => {
+			const curTheme = userTheme ?? theme ?? 'light';
 			const styles = document?.getElementById('darkTheme') as HTMLLinkElement;
-			styles.href = `assets/styles/lara-${theme}-purple/theme.css`;
-			this.menuItems$.next(this.setMenu(theme, authUser.userId))
+			styles.href = `assets/styles/lara-${curTheme}-purple/theme.css`;
+			this.menuItems$.next(this.setMenu(curTheme, authUser.userId));
 		})
 	}
 

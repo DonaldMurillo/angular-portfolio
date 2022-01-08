@@ -18,6 +18,9 @@ body {
 	}
 }
 
+
+
+
 .app-container {
 	display: grid;
 	grid-template: 10vh 80vh 10vh / auto;
@@ -58,6 +61,10 @@ body {
 	&.mobile {
 
 	}
+
+	.continue-button {
+		margin-top: 2rem;
+	}
 }
 
 .form-container {
@@ -66,8 +73,19 @@ body {
 	padding: 2rem;
 	margin: auto;
 
-	& * {
+	& *:not(.p-selectbutton) {
 		width: 100%;
+
+		p-selectbutton {
+			width: unset;
+			// display: flex;
+			// justify-content: center;
+
+			div {
+				
+				width: unset;
+			}
+		}
 	}
 
 	.form-title {
@@ -102,3 +120,4 @@ body {
 		}
 	}
 }
+

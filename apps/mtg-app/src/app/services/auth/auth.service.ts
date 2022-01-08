@@ -1,14 +1,13 @@
+import { environment } from './../../../environments/environment';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { first, tap } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { AuthState, CreateUserCommand, UserCredentials } from './auth.models';
 import { AuthStore } from './auth.store';
 import jwt_decode from "jwt-decode";
 import { PersistState } from '@datorama/akita';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { environment } from 'apps/mtg-app/src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -67,6 +66,7 @@ export class AuthService {
 	userLogOut(): void {
 		this.authStore.reset();
 		this.persistStorage.clearStore();
+		this.router.navigate(['user', 'login']);
 	}
 
 }

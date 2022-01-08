@@ -1,1 +1,31 @@
-<p>user-create-profile works!</p>
+<section class="form-container" [formGroup]="form">
+	<!-- TITLE -->
+	<h2 class="form-title">Create Profile</h2>
+
+	<!-- USERNAME -->
+	<div class="p-field">
+		<label for="nickname">Nickname</label>
+		<input id="nickname" type="nickname" aria-describedby="nickname-help" pInputText formControlName="nickname"
+			maxlength="20" autocomplete="off"/>
+		<small id="nickname-help" class="p-error" *ngIf="form.get('nickname')?.dirty && form.get('nickname')?.invalid">Must be at least 4 characters
+			long.</small>
+	</div>
+
+	<!-- SHOW TRADES -->
+	<div class="p-field">
+		<label for="showTrades">Show Trades</label>
+		<p-selectButton [options]="tradeOptions" formControlName="showTrades" optionLabel="label" optionValue="value"></p-selectButton>
+	</div>
+
+	<!-- THEME -->
+	<div class="p-field">
+		<label for="theme">Theme</label>
+		<p-selectButton [options]="themeOptions" formControlName="theme" optionLabel="label" optionValue="value" (onChange)="toggleTheme($event.value)" ></p-selectButton>
+	</div>
+
+
+	<!-- CONTINUE -->
+	<button pButton pRipple type="button" [loading]="(isLoading$ | async) ?? false" label="Register"
+		class="p-button-raised continue-button" (click)="continue()">
+	</button>
+</section>

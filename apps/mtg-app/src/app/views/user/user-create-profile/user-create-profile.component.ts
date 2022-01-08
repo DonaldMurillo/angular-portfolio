@@ -4,6 +4,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserQuery } from '../../../services/user/user.query';
 import { AppService } from '../../../services/app/app.service';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
 	selector: 'ap-user-create-profile',
@@ -24,7 +25,7 @@ export class UserCreateProfileComponent implements OnInit, OnDestroy {
 	});
 
 	isLoading$!: Observable<boolean>;
-	constructor(private query: UserQuery, private appService: AppService, private appQuery: AppQuery) { }
+	constructor(private query: UserQuery, private service: UserService, private appService: AppService, private appQuery: AppQuery) { }
 
 	ngOnInit() {
 		this.isLoading$ = this.query.selectLoading();
@@ -35,8 +36,8 @@ export class UserCreateProfileComponent implements OnInit, OnDestroy {
 		.pipe(takeUntil(this.destroy$))
 		.subscribe(([state, appTheme]) => {
 			const formTheme = this.form.get('theme')?.value;
-			if (formTheme !== appTheme || !state.theme) this.form.reset({...state, theme: appTheme })
-			else this.form.reset(state)
+			if (formTheme !== appTheme || !state.theme) this.form.reset({...state, theme: appTheme });
+			else this.form.reset(state);
 		})
 	}
 
@@ -45,7 +46,9 @@ export class UserCreateProfileComponent implements OnInit, OnDestroy {
 	}
 
 	continue() {
-		//
+		this.form.markAllAsTouched();
+		if (this.form.invalid) return;
+		this.service.createProfile(this.form.value)
 	}
 
 	ngOnDestroy(): void {

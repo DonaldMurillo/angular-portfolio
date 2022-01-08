@@ -3,9 +3,10 @@ import { AppTheme } from "../app/app.model";
 export interface UserState {
 	id: string | null;
 	nickname: string;
-	avatarImage: ArrayBuffer | null;
+	avatarImage?: ArrayBuffer | null;
 	showTrades: boolean;
 	theme: AppTheme | undefined;
+	isLoading: boolean;
 }
 
 export function createInitialState(): UserState {
@@ -15,5 +16,9 @@ export function createInitialState(): UserState {
 		avatarImage: null,
 		showTrades: false,
 		theme: undefined,
+		isLoading: false
 	}
 };
+
+
+export type CreateProfileDto = Omit<UserState, 'id' | 'avatarImage'>

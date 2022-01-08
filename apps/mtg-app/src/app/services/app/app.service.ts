@@ -10,6 +10,10 @@ export class AppService {
 	constructor(private appStore: AppStore, private http: HttpClient) {
 	}
 
+	/**
+	 * Toggles between light and dark theme
+	 * @param theme if parameter is provided forces the theme to be provided theme.
+	 */
 	toggleTheme(theme?: AppTheme) {
 		this.appStore.update(state => ({ ...state, theme: theme ?? (state.theme === 'dark' ? 'light' : 'dark')}));
 	}

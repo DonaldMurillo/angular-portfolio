@@ -9,6 +9,7 @@ import { User } from './entities/user.entity';
 import { JwtPayload } from '@angular-portfolio/api-interfaces';
 import { JwtService } from '@nestjs/jwt';
 import { CredentialsDto } from './dto/credentials.dto';
+import { UserType } from '../../shared/enums/auth.enum';
 
 @Injectable()
 export class AuthService {
@@ -16,15 +17,15 @@ export class AuthService {
   constructor(@InjectRepository(User) private userRepository: Repository<User>, private jwtService: JwtService) { }
 
   async create(createUserDto: CreateUserDto) {
-    const { password, ...dto } = createUserDto;
-		const salt = await bcrypt.genSalt();
-		const hashedPassword = await bcrypt.hash(password, salt);
-		const toCreate: CreateUserDto = { ...dto, password: hashedPassword};
+    // const { password, ...dto } = createUserDto;
+		// const salt = await bcrypt.genSalt();
+		// const hashedPassword = await bcrypt.hash(password, salt);
+		const toCreate: CreateUserDto = { ...createUserDto, userType: UserType.user};
 
     const user = this.userRepository.create(toCreate);
     await tryAndSaveEntity(user, this.userRepository);
 
-    return this.signIn(createUserDto);
+    return this.signIn(createUserDto, UserType.user);
   }
 
   findAll() {
@@ -47,16 +48,16 @@ export class AuthService {
 		return bcrypt.compare(password, hashedPassword);
 	}
 
-  async signIn(dto: CredentialsDto): Promise<{ accessToken: string }> {
+  async signIn(dto: CredentialsDto, userType: UserType): Promise<{ accessToken: string }> {
 		const { username, password } = dto;
 		const user = (await this.userRepository.findOne({username}));
-		if (user && (await this.comparePassword(password, user.password))) {
+		if (user && user.userType === userType && (await this.comparePassword(password, user.password))) {
 
 			// const isCustomer = user.type === UserType.CUSTOMER;
 			// const isAdmin = user.type === UserType.ADMIN;
 			// const isCompany = user.type === UserType.COMPANY;
 
-			const payload: JwtPayload = { username };
+			const payload: JwtPayload = { username, userType };
 			const accessToken: string = await this.jwtService.signAsync(payload);
 			return { accessToken };
 		} else {

@@ -1,5 +1,6 @@
-import { Entity, Column } from "typeorm";
+import { Entity, Column, BeforeInsert } from "typeorm";
 import { BaseEntity } from '../../../shared/entities/base.entity';
+import * as bcrypt from 'bcrypt';
 
 @Entity()
 export class User extends BaseEntity {
@@ -18,9 +19,20 @@ export class User extends BaseEntity {
   email: string;
 
   @Column({
+    nullable: false
+  })
+  userType: string;
+
+  @Column({
     nullable: false,
   })
   password: string;
+
+  @BeforeInsert()
+  async setPassword(password: string) {
+    const salt = await bcrypt.genSalt()
+    this.password = await bcrypt.hash(password || this.password, salt)
+  }
 
   //failed attemps
   //last failed attempt

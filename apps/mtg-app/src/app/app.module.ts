@@ -8,19 +8,23 @@ import { AppComponent } from './app.component';
 import { NxWelcomeComponent } from './nx-welcome.component';
 import { environment } from '../environments/environment';
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
-import { TokenInterceptorService } from './services/auth/token.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptorService } from './services/auth/token.interceptor';
+import { SnakeToCamelInterceptor } from './services/scryfall-search/snake-to-camel.interceptor';
 
 @NgModule({
-  declarations: [AppComponent, NxWelcomeComponent],
-  imports: [
-	  BrowserAnimationsModule, 
-	  SharedModule, 
-	  AppRoutingModule, 
-	  ViewsModule,
-	  environment.production ? [] : AkitaNgDevtools.forRoot()
+	declarations: [AppComponent, NxWelcomeComponent],
+	imports: [
+		BrowserAnimationsModule,
+		SharedModule,
+		AppRoutingModule,
+		ViewsModule,
+		environment.production ? [] : AkitaNgDevtools.forRoot()
 	],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },],
-  bootstrap: [AppComponent],
+	providers: [
+		{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },
+		{ provide: HTTP_INTERCEPTORS, useClass: SnakeToCamelInterceptor, multi: true },
+	],
+	bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

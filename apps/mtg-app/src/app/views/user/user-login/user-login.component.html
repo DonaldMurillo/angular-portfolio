@@ -1,0 +1,29 @@
+<section class="form-container" [formGroup]="form">
+	<!-- TITLE -->
+	<h2 class="form-title">Welcome back</h2>
+
+	<!-- USERNAME -->
+	<div class="p-field">
+		<label for="username">Username</label>
+		<input id="username" type="username" aria-describedby="username-help" pInputText formControlName="username"
+			maxlength="20" autocomplete="off"/>
+		<small id="username-help" class="p-error" *ngIf="checkFormControl('username')">Must be at least 4 characters
+			long.</small>
+	</div>
+
+	<!-- PASSWORD -->
+	<div class="p-field">
+		<label>
+			Password
+			<input id="password" type="password" aria-describedby="password-help" formControlName="password"  autocomplete="off" pInputText />
+
+		</label>
+		<small id="password-help" class="p-error" *ngIf="checkFormControl('password')">Minimum 8 characters</small>
+
+	</div>
+
+	<!-- CONTINUE -->
+	<button pButton pRipple type="button" [loading]="(isLoading$ | async) ?? false" label="Log in"
+		class="p-button-raised" (click)="continue()">
+	</button>
+</section>

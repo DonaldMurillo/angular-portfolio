@@ -1,0 +1,61 @@
+<section class="form-container" [formGroup]="form">
+	<!-- TITLE -->
+	<h2 class="form-title">Register</h2>
+
+	<!-- USERNAME -->
+	<div class="p-field">
+		<label for="username">Username</label>
+		<input id="username" type="username" aria-describedby="username-help" pInputText formControlName="username"
+			maxlength="20" autocomplete="off"/>
+		<small id="username-help" class="p-error" *ngIf="checkFormControl('username')">Must be at least 4 characters
+			long.</small>
+	</div>
+
+	<!-- EMAIL -->
+	<div class="p-field">
+		<label for="email">Email</label>
+		<input id="email" type="email" aria-describedby="email-help" pInputText formControlName="email" autocomplete="off" />
+		<small id="email-help" class="p-error" *ngIf="checkFormControl('email')">Invalid</small>
+	</div>
+
+	<!-- PASSWORD -->
+	<div class="p-field">
+		<label>
+			Password
+			<p-password id="password" aria-describedby="password-help" formControlName="password" strongRegex="pattern" autocomplete="off"></p-password>
+
+		</label>
+		<small id="password-help" class="p-error" *ngIf="checkFormControl('password')">Invalid</small>
+
+	</div>
+
+	<!-- CONFIR PASSWORD -->
+	<div class="p-field">
+		<label>
+			Confirm Password
+			<p-password id="cpassword" aria-describedby="cpassword-help" formControlName="cPassword" strongRegex="pattern" autocomplete="off" ></p-password>
+		</label>
+		<small id="cpassword-help" class="p-error" *ngIf="checkFormControl('cPassword')">Invalid</small>
+		<small id="cpassword-help" class="p-error" 
+			*ngIf="form.get('password')?.value !== form.get('cPassword')?.value && form.get('password')?.dirty">
+			Passwords must match
+		</small>
+	</div>
+
+	<div>
+		<p-divider></p-divider>
+		<p>Requirements</p>
+		<ul class="password-check-list">
+			<li><i class="pi {{passwordCheck?.hasLowercase ? 'pi-check' : 'pi-times'}}"></i>At least one lowercase</li>
+			<li><i class="pi {{passwordCheck?.hasUppercase ? 'pi-check' : 'pi-times'}}"></i>At least one uppercase</li>
+			<li><i class="pi {{passwordCheck?.hasNumber ? 'pi-check' : 'pi-times'}}"></i>At least one number</li>
+			<li><i class="pi {{passwordCheck?.hasSymbol ? 'pi-check' : 'pi-times'}}"></i>At least one symbol</li>
+			<li><i class="pi {{passwordCheck?.hasLength ? 'pi-check' : 'pi-times'}}"></i>Minimum 8 characters</li>
+			<li><i class="pi {{passwordCheck?.passwordsMatch ? 'pi-check' : 'pi-times'}}"></i>Both Passwords must match</li>
+		</ul>
+	</div>
+	<!-- CONTINUE -->
+	<button pButton pRipple type="button" [loading]="(isLoading$ | async) ?? false" label="Register"
+		class="p-button-raised" (click)="continue()">
+	</button>
+</section>

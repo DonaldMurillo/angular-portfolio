@@ -4,10 +4,10 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 export function setupSwagger(app: INestApplication, port: number, prefix: string): string {
 	const version = '0.0';
 	const options = new DocumentBuilder()
-    .setTitle('Portfolio Api')
-    .setDescription('Restfull API Backend for Portfolio')
+		.setTitle('Portfolio Api')
+		.setDescription('Restfull API Backend for Portfolio')
 		.setVersion(version)
-    .addTag('BackEnd, API')
+		.addTag('BackEnd, API')
 		.addBearerAuth()
 		.build();
 

@@ -1,4 +1,4 @@
-<nav class="app-nav"  *ngIf="theme$ | async; let theme">
+<nav class="app-nav" *ngIf="theme$ | async; let theme">
 
 	<div class="app-nav-section">
 		<a routerLink="search">
@@ -9,15 +9,26 @@
 	<div fxHide.lt-md="{true}" class="app-nav-section">
 		<a class="clickable" (click)="toggleTheme()">
 			<i class="pi {{theme === 'dark' ? 'pi-sun' : 'pi-moon'}}"></i>
-			{{theme === 'dark' ? 'Light Mode': 'Dark Mode'}}</a>
-		<a routerLink="user">
-			<i class="pi pi-user"></i>
-			Account
+			{{theme === 'dark' ? 'Light Mode': 'Dark Mode'}}
 		</a>
+		<a routerLink="{{userId ? 'user/' + userId + '/my-account': 'user/login'}}">
+			<i class="pi pi-user"></i>
+			{{userId ? 'Account': 'Log in'}}
+		</a>
+		<a routerLink="user/signup" *ngIf="!userId else logOut">
+			<i class="pi pi-user-plus"></i>
+			Register
+		</a>
+		<ng-template #logOut>
+			<a class="clickable" (click)="logout()">
+				<i class="pi pi-power-off"></i>
+				Log out
+			</a>
+		</ng-template>
 	</div>
 	<div fxHide.gt-sm="{true}">
 
-		<button pButton pRipple type="button" icon="pi pi-bars" 
+		<button pButton pRipple type="button" icon="pi pi-bars" aria-label="mobile menu"
 			class="p-button-rounded p-button-info p-button-outlined" (click)="menu.toggle($event)">
 		</button>
 	</div>

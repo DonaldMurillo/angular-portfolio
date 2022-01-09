@@ -137,7 +137,6 @@ body {
 .card-display-list {
 	margin: auto;
 
-
 	.selected {
 		display: block;
 		margin: 1rem 0px;
@@ -147,6 +146,7 @@ body {
 		.card-prev-container {
 			position: relative;
 			padding: 0.5rem;
+			
 			.card-name {
 				margin-top: 0px;
 				text-align: center;

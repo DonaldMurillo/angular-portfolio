@@ -6,9 +6,14 @@
 	<div class="p-field">
 		<label for="searchTerm">Search</label>
 		<div class="input-button">
-
-			<input id="searchTerm" type="search" aria-describedby="searchTerm-help" pInputText [(ngModel)]="searchTerm"
-				maxlength="20" autocomplete="off" (keyup.enter)="search()"/>
+			<input id="searchTerm" 
+				type="search" 
+				aria-describedby="searchTerm-help" 
+				maxlength="20" 
+				autocomplete="off" 
+				pInputText 
+				[(ngModel)]="searchTerm"
+				(keyup.enter)="search()"/>
 			<p-button icon="pi pi-search" [loading]="(isLoading$ | async) ?? false" (onClick)="search()"></p-button>
 		</div>
 	</div>

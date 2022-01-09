@@ -10,12 +10,11 @@ export class CardPreviewComponent {
 
 	@Input() card!: ScryfallCard;
 	_isSelected!: boolean;
-	private wasSelected!: boolean;
 	@Input() set isSelected(isSelected: boolean) {
-		this.wasSelected = this._isSelected && !isSelected;
+		const wasSelected = this._isSelected && !isSelected;
 		this._isSelected = isSelected;
 		if (this._isSelected) this.elementRef.nativeElement.scrollIntoView();
-		else if(this.wasSelected) {
+		else if(wasSelected) {
 			// REQUIRED TO GIVE THE TEMPLATE TIME TO RENDER BEFORE SCROLLING BACK TO IT
 			setTimeout(() =>this.elementRef.nativeElement.scrollIntoView(), 20);
 		}

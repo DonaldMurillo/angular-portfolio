@@ -32,10 +32,4 @@ export class SearchComponent implements OnInit {
 		this.hasSearched = true;
 		this.service.searchCards(this.searchTerm);
 	}
-
-	unSelect(el: any) {
-		this.selected = null;
-		// el.scrollIntoView();
-
-	}
 }

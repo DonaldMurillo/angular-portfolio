@@ -15,7 +15,7 @@ import { ConfigService } from '@nestjs/config';
     autoLoadEntities: config.get('TYPEORM_AUTOLOAD'),
     synchronize: config.get('TYPEORM_SYNCHRONIZE') == 'true',
     logging: config.get('TYPEORM_LOGGING') == 'true',
-    entities: config.get('TYPEORM_ENTITIES'), //needed for typeorm-seeding
+    entities: [config.get('TYPEORM_ENTITIES')], //needed for typeorm-seeding
     seeds:  config.get('TYPEORM_SEEDING_SEEDS') //needed for typeorm-seeding
 
 });

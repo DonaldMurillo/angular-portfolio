@@ -8,6 +8,7 @@ export class TokenInterceptorService implements HttpInterceptor {
 	constructor(private auth: AuthQuery) { 	}
 
 	intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+		
 		// All HTTP requests are going to go through this method
 		// We retrieve the token, if any
 		const token = this.auth.getValue().accessToken;

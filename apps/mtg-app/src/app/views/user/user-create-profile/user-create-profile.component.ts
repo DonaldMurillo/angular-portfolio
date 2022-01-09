@@ -36,8 +36,13 @@ export class UserCreateProfileComponent implements OnInit, OnDestroy {
 		.pipe(takeUntil(this.destroy$))
 		.subscribe(([state, appTheme]) => {
 			const formTheme = this.form.get('theme')?.value;
-			if (formTheme !== appTheme || !state.theme) this.form.reset({...state, theme: appTheme });
-			else this.form.reset(state);
+			const formState =  this.form.dirty ? this.form.value : undefined;
+			// TODO: FIGURE NAV MENU THEME SWITCHING BUG
+			if (formTheme !== appTheme || !state.theme) {
+				this.form.reset({ ...state, ...formState, theme: appTheme });
+			}
+			else this.form.reset({ ...state, ...formState });
+
 		})
 	}
 

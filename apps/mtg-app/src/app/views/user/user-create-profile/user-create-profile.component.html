@@ -5,7 +5,7 @@
 	<!-- USERNAME -->
 	<div class="p-field">
 		<label for="nickname">Nickname</label>
-		<input id="nickname" type="nickname" aria-describedby="nickname-help" pInputText formControlName="nickname"
+		<input id="nickname" type="text" aria-describedby="nickname-help" pInputText formControlName="nickname"
 			maxlength="20" autocomplete="off"/>
 		<small id="nickname-help" class="p-error" *ngIf="form.get('nickname')?.dirty && form.get('nickname')?.invalid">Must be at least 4 characters
 			long.</small>
@@ -20,7 +20,13 @@
 	<!-- THEME -->
 	<div class="p-field">
 		<label for="theme">Theme</label>
-		<p-selectButton [options]="themeOptions" formControlName="theme" optionLabel="label" optionValue="value" (onChange)="toggleTheme($event.value)" ></p-selectButton>
+		<p-selectButton 
+			[options]="themeOptions" 
+			formControlName="theme" 
+			optionLabel="label" 
+			optionValue="value" 
+			(onChange)="toggleTheme($event.value)">
+		</p-selectButton>
 	</div>
 
 

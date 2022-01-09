@@ -8,9 +8,7 @@ html {
 
 body {
 	height: 100vh;
-	// width: 100vw;
 	width: 100vw;
-	//max-width: 40rem;
 	overflow: hidden;
 	margin: auto;
 	> * {
@@ -23,7 +21,7 @@ body {
 
 .app-container {
 	display: grid;
-	grid-template: 10vh 80vh 10vh / auto;
+	grid-template: 4rem calc(100vh - 8rem) 4rem / auto;
 	overflow: hidden;
 
 	> section {
@@ -78,8 +76,6 @@ body {
 
 		p-selectbutton {
 			width: unset;
-			// display: flex;
-			// justify-content: center;
 
 			div {
 				
@@ -103,7 +99,6 @@ body {
 		padding-inline-start: unset;
 		
 		li {
-			// display: flex;
 			list-style-type: none;
 			> * {
 				display: inline;

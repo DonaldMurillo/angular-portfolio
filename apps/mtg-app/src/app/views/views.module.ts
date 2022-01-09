@@ -9,6 +9,7 @@ import { UserAccountComponent } from './user/user-account/user-account.component
 import { UserCreateProfileComponent } from './user/user-create-profile/user-create-profile.component';
 import { UserLoginComponent } from './user/user-login/user-login.component';
 import { UserSignupComponent } from './user/user-signup/user-signup.component';
+import { CardPreviewComponent } from './search/card-preview/card-preview.component';
 
 const COMPONENTS = [
 	NavBarComponent, 
@@ -17,7 +18,7 @@ const COMPONENTS = [
 ]
 
 @NgModule({
-	declarations: [COMPONENTS, UserComponent, UserCollectionsComponent, UserAccountComponent, UserCreateProfileComponent, UserLoginComponent, UserSignupComponent],
+	declarations: [COMPONENTS, UserComponent, UserCollectionsComponent, UserAccountComponent, UserCreateProfileComponent, UserLoginComponent, UserSignupComponent, CardPreviewComponent],
 	imports: [
 		SharedModule
 	],

@@ -114,5 +114,62 @@ body {
 			}
 		}
 	}
+
+	.input-button {
+		display: flex;
+
+
+		> p-button {
+			width: 20%;
+			> * {
+				border-bottom-left-radius: 0px;
+				border-top-left-radius: 0px;
+			}
+		}
+
+		input {
+			border-bottom-right-radius: 0px;
+			border-top-right-radius: 0px;
+		}
+	}
 }
 
+.card-display-list {
+	margin: auto;
+
+
+	.selected {
+		display: block;
+		margin: 1rem 0px;
+		border: 1px solid var(--primary-color);
+		border-radius: 0.5rem;
+
+		.card-prev-container {
+			position: relative;
+			padding: 0.5rem;
+			.card-name {
+				margin-top: 0px;
+				text-align: center;
+			}
+			
+			.close-button {
+				position: absolute;
+				top: 0rem;
+				right: 0rem;
+				width: auto;
+				cursor: pointer;
+				padding: 0.5rem;
+				border-radius: 0.5rem;
+
+				&:hover {
+					color: var(--primary-color);
+				}
+			}
+		}
+	}
+
+	.card-image {
+		width: 33.3333%;
+	}
+
+}

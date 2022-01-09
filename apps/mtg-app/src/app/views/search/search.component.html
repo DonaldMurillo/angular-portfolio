@@ -1,1 +1,30 @@
-<p>search works!</p>
+<section class="form-container">
+	<!-- TITLE -->
+	<h2 class="form-title">Search Magic Cards</h2>
+
+	<!-- SEARCH INPUT -->
+	<div class="p-field">
+		<label for="searchTerm">Search</label>
+		<div class="input-button">
+
+			<input id="searchTerm" type="search" aria-describedby="searchTerm-help" pInputText [(ngModel)]="searchTerm"
+				maxlength="20" autocomplete="off" (keyup.enter)="search()"/>
+			<p-button icon="pi pi-search" [loading]="(isLoading$ | async) ?? false" (onClick)="search()"></p-button>
+		</div>
+	</div>
+
+	<!-- CARD RESULT LIST -->
+	<div class="card-display-list">
+		<!-- CARDS -->
+		<ap-card-preview 
+			*ngFor="let card of results$ | async" 
+			[card]="card" [class.selected]="card === selected"
+			[isSelected]="card === selected" 
+			(imageClick)="selected = card" 
+			(unSelect)="selected =null">
+		</ap-card-preview>
+
+		<!-- EMPTY LIST -->
+		<div *ngIf="!(results$ | async)?.length && (isLoading$ | async) === false">{{hasSearched ?'No results' : ''}}</div>
+	</div>
+</section>

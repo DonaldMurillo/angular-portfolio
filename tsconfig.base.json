@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@angular-portfolio/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+      "@angular-portfolio/api-interfaces": ["libs/api-interfaces/src/index.ts"],
+      "@angular-portfolio/ts-utilities": ["libs/ts-utilities/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

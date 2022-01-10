@@ -1,0 +1,13 @@
+
+<span class="card-prev-container" *ngIf="!_isSelected; else selectedTemp">
+	<img src="{{card?.imageUris?.small}}" alt="" class="card-image" (click)="clicked()">
+</span>
+
+<ng-template #selectedTemp>
+	<div class="card-prev-container">
+		<h4 class="card-name">{{card.name}}</h4>
+		<img src="{{card?.imageUris?.small}}" alt="" class="card-image" >
+
+		<i class="pi pi-times close-button" (click)="close()"></i>
+	</div>
+</ng-template>

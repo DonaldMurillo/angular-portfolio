@@ -19,10 +19,19 @@
 	</div>
 
 	<!-- CARD RESULT LIST -->
-	<div class="card-display-list">
+	<div class="card-display-list" *ngIf="results$ | async; let results">
+
+		<ng-container *ngIf="hasSearched && results.length">
+			<div class="card-paginator" *ngIf="currentPage$ | async; let page">
+				<button pButton pRipple type="button" icon="pi pi-chevron-left" class="p-button-text" (click)="getPage(page-1)"></button>
+				<div><span>{{page}} of {{totalResults$ | async}}</span></div>
+				<button pButton pRipple type="button" icon="pi pi-chevron-right" class="p-button-text" (click)="getPage(page+1)"></button>
+			</div>
+		</ng-container>
+
 		<!-- CARDS -->
 		<ap-card-preview 
-			*ngFor="let card of results$ | async" 
+			*ngFor="let card of results" 
 			[card]="card" [class.selected]="card === selected"
 			[isSelected]="card === selected" 
 			(imageClick)="selected = card" 
@@ -30,6 +39,6 @@
 		</ap-card-preview>
 
 		<!-- EMPTY LIST -->
-		<div *ngIf="!(results$ | async)?.length && (isLoading$ | async) === false">{{hasSearched ?'No results' : ''}}</div>
+		<div *ngIf="!results?.length && (isLoading$ | async) === false">{{hasSearched ?'No results' : ''}}</div>
 	</div>
 </section>

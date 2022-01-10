@@ -1,3 +1,4 @@
+import { ScryfallSearchStore } from './../scryfall-search/scryfall-search.store';
 import { environment } from './../../../environments/environment';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
@@ -19,6 +20,7 @@ export class AuthService {
 		private http: HttpClient,
 		private router: Router,
 		private messageService: MessageService,
+		private scryfallStore: ScryfallSearchStore,
 		@Inject('persistStorage') private persistStorage: PersistState) {
 
 	}
@@ -66,7 +68,7 @@ export class AuthService {
 	userLogOut(): void {
 		this.authStore.reset();
 		this.persistStorage.clearStore();
-		this.router.navigate(['user', 'login']);
+		this.router.navigate(['user', 'login']).then(() => this.scryfallStore.reset());
 	}
 
 }

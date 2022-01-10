@@ -10,9 +10,7 @@ export class SnakeToCamelInterceptor implements HttpInterceptor {
 	intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 		req = req.clone({ responseType: 'json' });
 		return next.handle(req).pipe(map(event => {
-			if (event instanceof HttpResponse) {
-				// const parser = new DOMParser();
-				// const xml = parser.parseFromString(event.body, 'text/xml');
+			if (event instanceof HttpResponse && event.url?.includes('scryfall')) {
 				event = event.clone({ body: keysToCamel(event.body) });
 			}
 

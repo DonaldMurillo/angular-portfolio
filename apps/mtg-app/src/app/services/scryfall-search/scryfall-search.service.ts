@@ -8,14 +8,14 @@ import { ScryfallSearchResponse } from './scyfall-search.models';
 @Injectable({ providedIn: 'root' })
 export class ScryfallSearchService {
 
-	baseUrl = 'https://api.scryfall.com/cards/';
+	private baseUrl = 'https://api.scryfall.com/cards/';
 
 	constructor(private scryfallSearchStore: ScryfallSearchStore, private http: HttpClient, private messageService: MessageService) {
 	}
 
 	searchCards(searchTerm: string) {
 		this.scryfallSearchStore.update(state => ({ ...state, isLoading: true}));
-		this.http.get<ScryfallSearchResponse>(encodeURI(this.baseUrl + 'search?q=' + searchTerm))
+		this.http.get<ScryfallSearchResponse>(this.getSearchUrl(searchTerm))
 			.pipe(first())
 			.subscribe({
 				next: (response: ScryfallSearchResponse) => {
@@ -24,7 +24,8 @@ export class ScryfallSearchService {
 						searchTerm: searchTerm,
 						searchResult: response.data,
 						nextPage: response.hasMore ? response.nextPage : null,
-						totalResults: response.totalCards
+						totalResults: response.totalCards,
+						currentPage: 1
 					}));
 				},
 				error: (error: HttpErrorResponse) => {
@@ -35,4 +36,31 @@ export class ScryfallSearchService {
 			})
 	}
 
+	getPage(page: number) {
+		const searchTerm = this.scryfallSearchStore.getValue().searchTerm;
+		this.scryfallSearchStore.update(state => ({ ...state, isLoading: true}));
+		this.http.get<ScryfallSearchResponse>(this.getSearchUrl(searchTerm, page))
+			.pipe(first())
+			.subscribe({
+				next: (response: ScryfallSearchResponse) => {
+					this.scryfallSearchStore.update(state => ({
+						...state,
+						isLoading: false,
+						searchResult: response.data,
+						nextPage: response.hasMore ? response.nextPage : null,
+						currentPage: page
+					}));
+				},
+				error: (error: HttpErrorResponse) => {
+					this.messageService.add({ key: 'tc', severity: 'error', summary: 'error', detail: error.error.message, });
+					this.scryfallSearchStore.update(state => ({ ...state, isLoading: false }));
+				},
+				complete: () => this.scryfallSearchStore.update(state => ({ ...state, isLoading: false }))
+			})
+		//
+	}
+
+	private getSearchUrl(searchTerm: string, page: number = 1) {
+		return encodeURI(`https://api.scryfall.com/cards/search?format=json&include_extras=false&include_multilingual=false&order=name&page=${page}&q=${searchTerm}&unique=cards`);
+	}
 }

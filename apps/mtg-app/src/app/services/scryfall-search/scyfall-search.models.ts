@@ -4,6 +4,7 @@ export interface ScryfallSearchState {
 	searchResult: ScryfallCard[];
 	nextPage: string | null;
 	totalResults?: number;
+	currentPage?: number;
 }
 
 export function createInitialState(): ScryfallSearchState {

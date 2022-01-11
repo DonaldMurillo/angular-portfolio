@@ -23,8 +23,15 @@ export class UserProfileService {
   }
 
   findOne(id: number) {
+    // const userProfile = this.userProfileRepository.findOne({ user})
     return `This action returns a #${id} userProfile`;
   }
+
+  async findOneByUser(user: User) {
+    const userProfile = await this.userProfileRepository.findOne({ user });
+    return userProfile;
+  }
+
 
   update(id: number, updateUserProfileDto: UpdateUserProfileDto) {
     return `This action updates a #${id} userProfile`;

@@ -22,8 +22,7 @@ export class Collection extends BaseEntity {
   @ManyToOne(() => UserProfile, profile => profile.collections)
   profile: UserProfile;
 
-  @OneToMany(() => CollectionItem, item => item.collection)
+  @OneToMany(() => CollectionItem, item => item.collection, { eager: true, cascade: true })
   items: CollectionItem[];
-
 
 }

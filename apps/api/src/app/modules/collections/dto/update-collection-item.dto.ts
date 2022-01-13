@@ -16,6 +16,5 @@ export class UpdateCollectionItemDto {
     required: true,
     format: 'uuid'
   })
-  @IsUUID()
   collection: string;
 }

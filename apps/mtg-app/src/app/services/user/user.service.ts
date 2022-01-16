@@ -10,7 +10,7 @@ import { UserStore } from './user.store';
 @Injectable({ providedIn: 'root' })
 export class UserService {
 
-	baseUrl: string = environment.baseUrl + 'user-profile/'
+	baseUrl: string = environment.baseUrl + '/user-profile/'
 	constructor(
 		private userStore: UserStore, 
 		private http: HttpClient, 

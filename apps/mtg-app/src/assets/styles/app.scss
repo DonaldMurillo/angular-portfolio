@@ -16,7 +16,13 @@ body {
 	}
 }
 
+// utils
 
+.two-buttons {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
 
 
 .app-container {
@@ -138,6 +144,10 @@ body {
 			border-top-right-radius: 0px;
 		}
 	}
+
+	&.accordion {
+		padding: 0rem;
+	}
 }
 
 .card-display-list {
@@ -206,4 +216,14 @@ body {
 		width: 33.3333%;
 	}
 
+}
+
+.collection-list-item {
+	margin-bottom: 1rem;
+
+	.p-card-header {
+		text-align: center;
+		font-size: 1.5rem;
+		padding-top: 0.5rem;
+	}
 }

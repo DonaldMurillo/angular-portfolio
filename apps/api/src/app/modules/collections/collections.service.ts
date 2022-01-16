@@ -33,7 +33,8 @@ export class CollectionsService {
       throw new UnauthorizedException();
     }
     const collection = this.collectionRepository.create({ ...createCollectionDto, profile: userProfile });
-    return await tryAndSaveEntity(collection, this.collectionRepository);
+	 const { profile, ...newCollection } = await tryAndSaveEntity(collection, this.collectionRepository);
+	 return newCollection;
   }
 
   //list collections from user

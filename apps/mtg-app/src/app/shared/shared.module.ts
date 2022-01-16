@@ -5,6 +5,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { PRIME_MODULES } from './primeng';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MessageService } from 'primeng/api';
+import { YesNoPipe } from './pipes/yes-no.pipe';
 
 
 const MODULES = [
@@ -17,13 +18,14 @@ const MODULES = [
 ];
 
 @NgModule({
-	declarations: [],
+	declarations: [YesNoPipe],
 	imports: [
 		MODULES,
 	],
 	exports: [
-		MODULES
+		MODULES,
+		YesNoPipe
 	],
-	providers: [MessageService]
+	providers: [MessageService,]
 })
 export class SharedModule { }

@@ -15,7 +15,7 @@ import { UserService } from '../user/user.service';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-	private baseUrl = environment.baseUrl;
+	private baseUrl = environment.baseUrl + '/';
 
 	constructor(
 		private authStore: AuthStore,

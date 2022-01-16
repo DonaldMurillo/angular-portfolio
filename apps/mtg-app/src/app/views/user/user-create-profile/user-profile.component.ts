@@ -1,4 +1,4 @@
-import { AppQuery } from './../../../services/app/app.query';
+import { AppQuery } from '../../../services/app/app.query';
 import { Observable, Subject, takeUntil, combineLatest } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -7,11 +7,11 @@ import { AppService } from '../../../services/app/app.service';
 import { UserService } from '../../../services/user/user.service';
 
 @Component({
-	selector: 'ap-user-create-profile',
-	templateUrl: './user-create-profile.component.html',
-	styleUrls: ['./user-create-profile.component.scss']
+	selector: 'ap-user-profile',
+	templateUrl: './user-profile.component.html',
+	styleUrls: ['./user-profile.component.scss']
 })
-export class UserCreateProfileComponent implements OnInit, OnDestroy {
+export class UserProfileComponent implements OnInit, OnDestroy {
 
 	private destroy$ = new Subject();
 
@@ -19,10 +19,13 @@ export class UserCreateProfileComponent implements OnInit, OnDestroy {
 	themeOptions = [{ label: 'Light', value: 'light' }, { label: 'Dark', value: 'dark' }];
 
 	form: FormGroup = new FormGroup({
+		id: new FormControl(),
 		nickname: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]),
 		showTrades: new FormControl(),
 		theme: new FormControl(),
 	});
+
+	isCreateProfile = true;
 
 	isLoading$!: Observable<boolean>;
 	constructor(private query: UserQuery, private service: UserService, private appService: AppService, private appQuery: AppQuery) { }
@@ -35,10 +38,14 @@ export class UserCreateProfileComponent implements OnInit, OnDestroy {
 		])
 		.pipe(takeUntil(this.destroy$))
 		.subscribe(([state, appTheme]) => {
+			if (state.id) {
+				this.isCreateProfile = false;
+				return this.form.reset(state);
+			}
 			const formTheme = this.form.get('theme')?.value;
 			const formState =  this.form.dirty ? this.form.value : undefined;
 			// TODO: FIGURE NAV MENU THEME SWITCHING BUG
-			if (formTheme !== appTheme || !state.theme) {
+			if (!state.theme || formTheme !== appTheme) {
 				this.form.reset({ ...state, ...formState, theme: appTheme });
 			}
 			else this.form.reset({ ...state, ...formState });
@@ -53,7 +60,8 @@ export class UserCreateProfileComponent implements OnInit, OnDestroy {
 	continue() {
 		this.form.markAllAsTouched();
 		if (this.form.invalid) return;
-		this.service.createProfile(this.form.value)
+		if (this.isCreateProfile) this.service.updateProfile(this.form.value)
+		else this.service.createProfile(this.form.value)
 	}
 
 	ngOnDestroy(): void {

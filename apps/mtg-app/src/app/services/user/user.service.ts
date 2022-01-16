@@ -4,7 +4,7 @@ import { environment } from './../../../environments/environment';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { first } from 'rxjs/operators';
-import { CreateProfileDto, UserState } from './user.models';
+import { CreateProfileDto, UpdateProfileDto, UserState } from './user.models';
 import { UserStore } from './user.store';
 
 @Injectable({ providedIn: 'root' })
@@ -52,5 +52,9 @@ export class UserService {
 
 	updateState(state: UserState) {
 		this.userStore.update(state);
+	}
+
+	updateProfile(updateProfileDto: UpdateProfileDto) {
+		//
 	}
 }

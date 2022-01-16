@@ -7,12 +7,12 @@ import { Injectable } from '@angular/core';
 })
 export class RouterHelperService {
 
-	currentRoute = new BehaviorSubject<string | undefined>(undefined);
+	private currentRoute = new BehaviorSubject<string | undefined>(undefined);
 
 	constructor(public readonly router: Router) {
 		this.router.events
 			.pipe(
-				filter(event => typeof event === typeof NavigationEnd),
+				filter(event => event instanceof NavigationEnd),
 				map(event => (event as NavigationEnd).url),
 				startWith(this.router.url)
 				).subscribe( url => {

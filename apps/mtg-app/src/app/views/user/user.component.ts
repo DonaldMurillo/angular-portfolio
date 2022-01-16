@@ -12,8 +12,8 @@ import { Observable } from 'rxjs';
 export class UserComponent implements OnInit {
 
 	items: MenuItem[] = [
-		{ label: 'Account', icon: 'pi pi-fw pi-cog', routerLink: ['./'] },
-		{ label: 'Collections', icon: 'pi pi-fw pi-box', routerLink: ['collections'] },
+		{ label: 'Account', icon: 'pi pi-fw pi-cog', routerLink: ['./'], id: 'my-account' },
+		{ label: 'Collections', icon: 'pi pi-fw pi-box', routerLink: ['collections'], id: 'collections' },
 	];;
 
 	activeItem$!: Observable<MenuItem | undefined>;
@@ -26,7 +26,8 @@ export class UserComponent implements OnInit {
 			.selectCurrentRoute()
 			.pipe(map(url => {
 				if (!url) return undefined;
-				else if (url?.includes('collection')) return this.items[1];
+				const item = this.items.find(item => item.id ? url?.endsWith(item.id) : null);
+				if (item) return item;
 				else return this.items[0];
 			}));
 	}

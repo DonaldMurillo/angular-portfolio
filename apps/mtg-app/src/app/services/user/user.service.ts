@@ -38,15 +38,19 @@ export class UserService {
 	}
 
 	getProfile() {
-		this.http.get<UserState>(this.baseUrl + 'create-profile')
-		.pipe(first())
-		.subscribe({
-			next: (userState: UserState) => this.userStore.update(state => ({...state, ...userState})),
-			error: (error: HttpErrorResponse) => {
-				this.messageService.add({ key: 'tc', severity: 'error', summary: 'error', detail: error.error.message, });
-				this.userStore.update(state => ({ ...state, isLoading: false }));
-			},
-			complete: () => this.userStore.update(state => ({ ...state, isLoading: false }))
-		})
+		// this.http.get<UserState>(this.baseUrl + 'create-profile')
+		// .pipe(first())
+		// .subscribe({
+		// 	next: (userState: UserState) => this.userStore.update(state => ({...state, ...userState})),
+		// 	error: (error: HttpErrorResponse) => {
+		// 		this.messageService.add({ key: 'tc', severity: 'error', summary: 'error', detail: error.error.message, });
+		// 		this.userStore.update(state => ({ ...state, isLoading: false }));
+		// 	},
+		// 	complete: () => this.userStore.update(state => ({ ...state, isLoading: false }))
+		// })
+	}
+
+	updateState(state: UserState) {
+		this.userStore.update(state);
 	}
 }

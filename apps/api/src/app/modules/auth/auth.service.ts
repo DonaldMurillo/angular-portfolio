@@ -45,7 +45,7 @@ export class AuthService {
 		return bcrypt.compare(password, hashedPassword);
 	}
 
-	async signIn(dto: CredentialsDto, userType: UserType): Promise<{ accessToken: string }> {
+	async signIn(dto: CredentialsDto, userType: UserType): Promise<{ accessToken: string, user: User }> {
 		const { username, password } = dto;
 		const user = (await this.userRepository.findOne({ username }));
 		if (user && user.userType === userType && (await this.comparePassword(password, user.password))) {
@@ -56,7 +56,7 @@ export class AuthService {
 
 			const payload: JwtPayload = { username, userId: user.id, userType };
 			const accessToken: string = await this.jwtService.signAsync(payload);
-			return { accessToken };
+			return { accessToken, user };
 		} else {
 			throw new UnauthorizedException('Please check your login credentials');
 		}

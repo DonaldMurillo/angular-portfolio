@@ -1,3 +1,4 @@
+import { UserState } from './../user/user.models';
 import { ScryfallSearchStore } from './../scryfall-search/scryfall-search.store';
 import { environment } from './../../../environments/environment';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -9,6 +10,7 @@ import jwt_decode from "jwt-decode";
 import { PersistState } from '@datorama/akita';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { UserService } from '../user/user.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -21,6 +23,7 @@ export class AuthService {
 		private router: Router,
 		private messageService: MessageService,
 		private scryfallStore: ScryfallSearchStore,
+		private userService: UserService,
 		@Inject('persistStorage') private persistStorage: PersistState) {
 
 	}
@@ -47,12 +50,13 @@ export class AuthService {
 
 	userLogIn(userCredentials: UserCredentials): void {
 		this.authStore.update(state => ({ ...state, isLoading: true }));
-		this.http.post<{ accessToken: string }>(this.baseUrl + 'auth/user-login', userCredentials)
+		this.http.post<{ accessToken: string, profile: UserState }>(this.baseUrl + 'user-profile/sign-in', userCredentials)
 			.pipe(first())
 			.subscribe({
-				next: ({ accessToken }) => {
+				next: ({ accessToken, profile }) => {
 					const authUser = jwt_decode<AuthState>(accessToken);
 					this.authStore.update({ ...authUser, accessToken: accessToken, userType: authUser.userType ?? 'user' });
+					if (profile) this.userService.updateState(profile);
 					this.router.navigate(['user', authUser.userId, 'my-account']);
 				},
 				error: (error: HttpErrorResponse) => {

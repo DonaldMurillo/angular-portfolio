@@ -7,6 +7,11 @@ export interface UserState {
 	showTrades: boolean;
 	theme: AppTheme | undefined;
 	isLoading: boolean;
+	//collections: Collection[];
+
+	// createdAt: Date;
+	// updatedAt: Date;
+	// isActive: boolean;
 }
 
 export function createInitialState(): UserState {

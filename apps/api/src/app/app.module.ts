@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { defaultConnection } from './configs/typeorm.config';
 import { UserProfileModule } from './modules/user-profile/user-profile.module';
 import { PassportModule } from '@nestjs/passport';
+import { CollectionsModule } from './modules/collections/collections.module';
 
 config();
 
@@ -24,7 +25,8 @@ config();
       inject: [ConfigService],
     }),
     AuthModule,
-    UserProfileModule
+    UserProfileModule,
+    CollectionsModule
   ],
   controllers: [AppController],
   providers: [AppService],

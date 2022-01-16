@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 import { BaseEntity } from '../../../shared/entities/base.entity';
 import { User } from '../../auth/entities/user.entity';
+import { Collection } from '../../collections/entities/collection.entity';
 
 @Entity()
 export class UserProfile extends BaseEntity {
@@ -32,6 +33,9 @@ export class UserProfile extends BaseEntity {
   @OneToOne(() => User)
   @JoinColumn()
   user: User;
+
+  @OneToMany(() => Collection, collection => collection.profile, { eager: true, cascade: true })
+  collections: Collection[];
 
   // add collections
   // theme selector4

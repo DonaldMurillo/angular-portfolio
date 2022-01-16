@@ -7,6 +7,7 @@ import { SearchComponent } from './views/search/search.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserGuard } from './services/user/user.guard';
+import { UserComponent } from './views/user/user.component';
 
 //https://angular.io/guide/lazy-loading-ngmodules
 //ng generate module customers --route customers --module app.module
@@ -16,9 +17,12 @@ const routes: Routes = [
 	{ path: 'search', component: SearchComponent, pathMatch: 'full' },
 	{ path: 'user/login', component: UserLoginComponent, pathMatch: 'full' },
 	{ path: 'user/signup', component: UserSignupComponent, pathMatch: 'full' },
-	{ path: 'user/:userId/collections', component: UserCollectionsComponent, pathMatch: 'full', canActivate: [UserGuard]},
-	{ path: 'user/:userId/my-account', component: UserAccountComponent, pathMatch: 'full', canActivate: [UserGuard] },
 	{ path: 'user/:userId/create-profile', component: UserCreateProfileComponent, pathMatch: 'full', canActivate: [UserGuard] },
+	
+	{ path: 'user/:userId/my-account', component: UserComponent, canActivate: [UserGuard], children: [
+		{ path: '', component: UserAccountComponent, pathMatch: 'full' },
+		{ path: 'collections', component: UserCollectionsComponent },
+	]},
 
 	{ path: '**', redirectTo: 'search', pathMatch: 'full' }, // TODO: MAKE 404 PAGE;
 ];

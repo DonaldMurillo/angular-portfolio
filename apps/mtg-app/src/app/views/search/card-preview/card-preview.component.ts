@@ -11,6 +11,7 @@ export class CardPreviewComponent {
 	_isSelected!: boolean;
 
 	@Input() card!: ScryfallCard;
+	@Input() isLogged!: boolean;
 	@Input() set isSelected(isSelected: boolean) {
 		const wasSelected = this._isSelected && !isSelected;
 		this._isSelected = isSelected;
@@ -25,11 +26,16 @@ export class CardPreviewComponent {
 	};
 	@Output() imageClick = new EventEmitter();
 	@Output() unSelect = new EventEmitter();
+	@Output() addToCollection = new EventEmitter();
 
 	constructor(private elementRef: ElementRef) { }
 
 	clicked() {
 		this.imageClick.emit();
+	}
+
+	openScryfall() {
+		window.open(this.card?.scryfallUri, '_blank')
 	}
 
 	close() {

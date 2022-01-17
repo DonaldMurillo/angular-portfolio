@@ -11,6 +11,7 @@ import { PersistState } from '@datorama/akita';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { UserService } from '../user/user.service';
+import { CollectionsService } from '../user/collections/collections.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -24,6 +25,7 @@ export class AuthService {
 		private messageService: MessageService,
 		private scryfallStore: ScryfallSearchStore,
 		private userService: UserService,
+		private collectionSerive: CollectionsService,
 		@Inject('persistStorage') private persistStorage: PersistState) {
 
 	}
@@ -71,6 +73,8 @@ export class AuthService {
 
 	userLogOut(): void {
 		this.authStore.reset();
+		this.userService.reset();
+		this.collectionSerive.reset();
 		this.persistStorage.clearStore();
 		this.router.navigate(['user', 'login']).then(() => this.scryfallStore.reset());
 	}

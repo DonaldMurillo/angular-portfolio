@@ -5,7 +5,7 @@ import { Collection } from './collection.model';
 export type CollectionsState = EntityState<Collection>
 
 @Injectable({ providedIn: 'root' })
-@StoreConfig({ name: 'collections' })
+@StoreConfig({ name: 'collections', resettable: true })
 export class CollectionsStore extends EntityStore<CollectionsState> {
 
 	constructor() {

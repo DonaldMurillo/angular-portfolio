@@ -6,7 +6,7 @@ import { PRIME_MODULES } from './primeng';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MessageService } from 'primeng/api';
 import { YesNoPipe } from './pipes/yes-no.pipe';
-
+import {ConfirmationService} from 'primeng/api';
 
 const MODULES = [
 	PRIME_MODULES,
@@ -26,6 +26,6 @@ const MODULES = [
 		MODULES,
 		YesNoPipe
 	],
-	providers: [MessageService,]
+	providers: [MessageService, ConfirmationService]
 })
 export class SharedModule { }

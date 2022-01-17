@@ -41,28 +41,28 @@ export class CollectionsController {
   @UseGuards(AuthGuard())
   @Patch(':id')
   update(@GetUser(UserType.user) user: User, @Param('id') id: string, @Body() updateCollectionDto: UpdateCollectionDto) {
-    return this.collectionsService.update( user, id, updateCollectionDto );
+    return this.collectionsService.update(user, id, updateCollectionDto);
   }
 
 
   @UseGuards(AuthGuard())
   @Delete(':id')
   remove(@GetUser(UserType.user) user: User, @Param('id') id: string ) {
-    return this.collectionsService.remove( user, id );
+    return this.collectionsService.remove(user, id);
   }
 
 
   @UseGuards(AuthGuard())
-  @Post(':collectionId/item/')
+  @Post(':collectionId/item')
   createCollectionItem(@GetUser(UserType.user) user: User, @Param('collectionId') collectionId: string, @Body() createCollectionItemDto: CreateCollectionItemDto) {
-    return this.collectionsService.createCollectionItem( user, collectionId, createCollectionItemDto );
+    return this.collectionsService.createCollectionItem(user, collectionId, createCollectionItemDto);
   }
 
 
   @UseGuards(AuthGuard())
   @Get(':collectionId/item/:itemId')
   findCollectionItem(@GetUser(UserType.user) user: User, @Param('collectionId') collectionId: string, @Param('itemId') itemId: string) {
-    return this.collectionsService.findCollectionItem( user, collectionId, itemId );
+    return this.collectionsService.findCollectionItem(user, collectionId, itemId);
   }
 
 
@@ -72,13 +72,13 @@ export class CollectionsController {
   @UseGuards(AuthGuard())
   @Patch(':collectionId/item/:itemId')
   updateCollectionItem(@GetUser(UserType.user) user: User, @Param('collectionId') collectionId: string, @Param('itemId') itemId: string, @Body() updateCollectionItemDto: UpdateCollectionItemDto) {
-    return this.collectionsService.updateCollectionItem( user, collectionId, itemId, updateCollectionItemDto);
+    return this.collectionsService.updateCollectionItem(user, collectionId, itemId, updateCollectionItemDto);
   }
 
   @UseGuards(AuthGuard())
   @Delete(':collectionId/item/:itemId')
   removeCollectionItem(@GetUser(UserType.user) user: User, @Param('collectionId') collectionId: string, @Param('itemId') itemId: string ) {
-    return this.collectionsService.removeCollectionItem( user, collectionId, itemId );
+    return this.collectionsService.removeCollectionItem(user, collectionId, itemId);
   }
 
 }

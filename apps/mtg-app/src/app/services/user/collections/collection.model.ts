@@ -18,6 +18,17 @@ export interface CollectionItem {
 	lang: string
 }
 
+export interface CreateItemDto {
+	scryfallId: string
+	name: string;
+	scryfallUri: string;
+	imageUriNormal?: string
+	colors?: string[]
+	foil: boolean
+	quantity: number
+	lang: string
+}
+
 export function createCollection(params: Partial<Collection>) {
 	return {
 

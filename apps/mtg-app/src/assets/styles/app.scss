@@ -195,6 +195,16 @@ body {
 				margin-top: 0px;
 				text-align: center;
 			}
+
+			.card-prev-body {
+				display: grid;
+				// gap: 0.5rem;
+				grid-template-columns: 33% 67%;
+
+				.card-prev-actions {
+					padding: 0.5rem;
+				}
+			}
 			
 			.close-button {
 				position: absolute;

@@ -57,4 +57,8 @@ export class UserService {
 	updateProfile(updateProfileDto: UpdateProfileDto) {
 		//
 	}
+
+	reset() {
+		this.userStore.reset();
+	}
 }

@@ -7,6 +7,7 @@ import { CollectionsQuery } from '../../../services/user/collections/collections
 import { UserQuery } from '../../../services/user/user.query';
 import { Collection } from '../../../services/user/collections/collection.model';
 import { RouterHelperService } from '../../../services/helpers/router-helper.service';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
 	selector: 'ap-user-collections',
@@ -29,7 +30,8 @@ export class UserCollectionsComponent implements OnInit {
 		private query: CollectionsQuery, 
 		private service: CollectionsService,
 		private userQuery: UserQuery,
-		private routerHelper: RouterHelperService) { }
+		private routerHelper: RouterHelperService,
+		private confirmationService: ConfirmationService) { }
 
 	ngOnInit() {
 		this.isLoading$ = this.query.selectLoading();
@@ -43,9 +45,20 @@ export class UserCollectionsComponent implements OnInit {
 		this.service.add({ ...this.form.value, profileId: this.userQuery.getValue().id }).subscribe();
 	}
 
-	remove(id?: string) {
+	remove(event: Event, id?: string) {
 		if (!id) return; //TODO: SHOW ERROR?
-		this.service.delete(id).subscribe();
+		this.confirmationService.confirm({
+			target: event.target ?? undefined,
+			message: 'This action is irreversable. Are you sure that you want to proceed?',
+			icon: 'pi pi-exclamation-triangle',
+			accept: () => {
+				 //confirm action
+				 this.service.delete(id).subscribe();
+			},
+			reject: () => {
+				 //reject action
+			}
+	  });
 	}
 
 	update(id?: string) {

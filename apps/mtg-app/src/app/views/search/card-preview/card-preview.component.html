@@ -6,8 +6,26 @@
 <ng-template #selectedTemp>
 	<div class="card-prev-container">
 		<h4 class="card-name">{{card.name}}</h4>
-		<img src="{{card?.imageUris?.small}}" alt="" class="card-image" >
-
+		<div class="card-prev-body">
+			<img src="{{card?.imageUris?.small}}" alt="" class="card-prev-image" >
+			<div class="card-prev-actions">
+				<button pButton pRipple 
+					type="button" 
+					label="View in Scryfall" 
+					class="p-button-text p-button-sm"
+					(click)="openScryfall()">
+				</button>
+				<button pButton pRipple 
+					type="button" 
+					label="Add to collection" 
+					class="p-button-text p-button-sm" 
+					(click)="addToCollection.emit()"
+					*ngIf="isLogged">
+				</button>
+				<!-- <div>View in Scryfall</div>
+				<div>Add to collection</div> -->
+			</div>
+		</div>
 		<i class="pi pi-times close-button" (click)="close()"></i>
 	</div>
 </ng-template>

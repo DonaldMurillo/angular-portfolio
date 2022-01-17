@@ -46,7 +46,7 @@
 </section>
 
 <p-dialog header="Select A Collection" [(visible)]="displayDialog" [style]="{'height': '50vh'}">
-	<p-dropdown [options]="userCollections.concat(userCollections)" [(ngModel)]="selectedCollection" optionLabel="name"></p-dropdown>
+	<p-dropdown [options]="userCollections" [(ngModel)]="selectedCollection" optionLabel="name"></p-dropdown>
 	<button pButton pRipple 
 		type="button" 
 		label="Add" 

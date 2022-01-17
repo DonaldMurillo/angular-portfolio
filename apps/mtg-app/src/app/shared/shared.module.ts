@@ -7,6 +7,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MessageService } from 'primeng/api';
 import { YesNoPipe } from './pipes/yes-no.pipe';
 import {ConfirmationService} from 'primeng/api';
+import { CardInCollectionDirective } from './directives/card-in-collection.directive';
+import { CollectionIconComponent } from './components/collection-icon/collection-icon.component';
 
 const MODULES = [
 	PRIME_MODULES,
@@ -18,13 +20,14 @@ const MODULES = [
 ];
 
 @NgModule({
-	declarations: [YesNoPipe],
+	declarations: [YesNoPipe, CardInCollectionDirective, CollectionIconComponent],
 	imports: [
 		MODULES,
 	],
 	exports: [
 		MODULES,
-		YesNoPipe
+		YesNoPipe,
+		CardInCollectionDirective
 	],
 	providers: [MessageService, ConfirmationService]
 })

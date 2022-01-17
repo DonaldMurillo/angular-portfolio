@@ -15,15 +15,19 @@
 					class="p-button-text p-button-sm"
 					(click)="openScryfall()">
 				</button>
-				<button pButton pRipple 
-					type="button" 
-					label="Add to collection" 
-					class="p-button-text p-button-sm" 
-					(click)="addToCollection.emit()"
-					*ngIf="isLogged">
-				</button>
-				<!-- <div>View in Scryfall</div>
-				<div>Add to collection</div> -->
+				<ng-container *ngIf="isLogged">
+					<button pButton pRipple 
+						type="button" 
+						label="Add to collection" 
+						class="p-button-text p-button-sm" 
+						(click)="addToCollection.emit()"
+						>
+					</button>
+					<div class="card-prev-col-icon">
+						<div hidden [apCardInCollection]="card"></div>
+					</div>
+				</ng-container>
+				<!-- <div>Add to collection</div> -->
 			</div>
 		</div>
 		<i class="pi pi-times close-button" (click)="close()"></i>

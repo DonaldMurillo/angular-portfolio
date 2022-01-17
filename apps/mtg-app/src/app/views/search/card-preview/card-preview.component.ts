@@ -1,10 +1,11 @@
 import { ScryfallCard } from './../../../services/scryfall-search/scyfall-search.models';
-import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
 	selector: 'ap-card-preview',
 	templateUrl: './card-preview.component.html',
-	styleUrls: ['./card-preview.component.scss']
+	styleUrls: ['./card-preview.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CardPreviewComponent {
 	
@@ -17,7 +18,7 @@ export class CardPreviewComponent {
 		this._isSelected = isSelected;
 		if (this._isSelected) {
 			// REQUIRED WHEN SELECTING ANOTHER CARD W/O CLOSING THE PREVIOUS
-			setTimeout(() =>this.elementRef.nativeElement?.previousElementSibling?.scrollIntoView(), 25);
+			setTimeout(() => this.elementRef.nativeElement?.previousElementSibling?.scrollIntoView(), 25);
 		}
 		else if(wasSelected) {
 			// REQUIRED TO GIVE THE TEMPLATE TIME TO RENDER BEFORE SCROLLING BACK TO IT

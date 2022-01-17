@@ -77,8 +77,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 
 	addToCollection() {
 		this.displayDialog = false;
-		console.log(this.selectedCollection)
-		// this.collectionSerive.addCardToCollection(card);
+		if (!this.selected || !this.selectedCollection.id) return;
+		this.collectionService.addCardToCollection(this.selected, this.selectedCollection.id);
 	}
 
 	openDialog() {

@@ -75,6 +75,21 @@ body {
 		padding: 0rem 1rem 1rem 1rem;
 		margin: auto;
 	}
+
+	ap-collection-icon {
+		display: inline-block;
+		width: fit-content!important;
+		small {
+			display: flex;
+		}
+		button {
+			margin: auto;
+			justify-content: center;
+			display: flex;
+			width: 2rem!important; 
+			height: 2rem!important;
+		}
+	}
 }
 
 .form-container {
@@ -218,6 +233,11 @@ body {
 				&:hover {
 					color: var(--primary-color);
 				}
+			}
+
+			.card-prev-col-icon {
+				display: flex;
+				justify-content: space-around;
 			}
 		}
 	}

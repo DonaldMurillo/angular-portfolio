@@ -127,13 +127,15 @@ export class CollectionsService {
 
 		const existItem = existCollection.items.find(col => col.scryfallId === createCollectionItemDto.scryfallId);
 		if (existItem) {
-			throw new UnauthorizedException();
+			// IF EXISTS INCREMENT QUANTITY
+			return await tryAndSaveEntity({ ...existItem, quantity: existItem.quantity + 1}, this.collectionItemRepository);
 		}
 
 		//save collectionItem
 		const item = this.collectionItemRepository.create({ ...createCollectionItemDto, collection: existCollection });
-		return await tryAndSaveEntity(item, this.collectionItemRepository);
+		const { collection, ...newItem } = await tryAndSaveEntity(item, this.collectionItemRepository);
 
+		return newItem;
 	}
 
 	//find collection by id

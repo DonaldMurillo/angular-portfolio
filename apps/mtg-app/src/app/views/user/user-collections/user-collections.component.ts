@@ -62,6 +62,7 @@ export class UserCollectionsComponent implements OnInit {
 	}
 
 	update(id?: string) {
+		if (!id) return; 
 		return;
 		this.routerHelper.router.navigate([id])
 	}

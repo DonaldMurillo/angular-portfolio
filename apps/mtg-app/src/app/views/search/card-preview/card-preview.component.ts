@@ -5,7 +5,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Ou
 	selector: 'ap-card-preview',
 	templateUrl: './card-preview.component.html',
 	styleUrls: ['./card-preview.component.scss'],
-	changeDetection: ChangeDetectionStrategy.OnPush
+	changeDetection: ChangeDetectionStrategy.OnPush //DON'T FORGET TO CHECK FOR CHANGES
 })
 export class CardPreviewComponent {
 	

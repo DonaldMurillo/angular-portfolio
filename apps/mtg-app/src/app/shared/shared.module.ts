@@ -19,15 +19,20 @@ const MODULES = [
 	FormsModule,
 ];
 
+const DECLARATIONS = [
+	YesNoPipe, 
+	CardInCollectionDirective, 
+	CollectionIconComponent
+]
+
 @NgModule({
-	declarations: [YesNoPipe, CardInCollectionDirective, CollectionIconComponent],
+	declarations: [DECLARATIONS],
 	imports: [
 		MODULES,
 	],
 	exports: [
 		MODULES,
-		YesNoPipe,
-		CardInCollectionDirective
+		DECLARATIONS
 	],
 	providers: [MessageService, ConfirmationService]
 })

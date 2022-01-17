@@ -16,7 +16,6 @@ const storage = persistState({
 	preStorageUpdate(storeName: string, state: { accessToken: string; exp: number; userType: string; }) {
 		// SAVE THE TOKEN AND EXPIRATION
 		if (storeName === 'auth') {
-			console.log(state)
 			return {
 				...state,
 				accessToken: state.accessToken,

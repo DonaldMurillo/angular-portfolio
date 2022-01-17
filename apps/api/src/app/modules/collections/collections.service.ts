@@ -51,32 +51,24 @@ export class CollectionsService {
 
 	//find collection by id
 	//empty throw error?
-	async findOne(user: User, id: string) {
+	async findOne(user: User, id: string): Promise<[Collection, UserProfile]> {
 		const userProfile: UserProfile = await this.profileService.findOneByUser(user);
 		if (!userProfile) {
 			throw new UnauthorizedException();
 		}
-		const collection = await this.collectionRepository.find({ where: { profile: userProfile, id: id } })
-		if (!collection.length) {
-			throw new UnauthorizedException();
+
+		const existCollection = userProfile.collections.find(col => col.id === id);
+		if (!existCollection) {
+			throw new NotFoundException();
 		}
 
-		return collection;
+		return [existCollection, userProfile];
 	}
 
 	//update modifiable properties on collection
 	async update(user: User, id: string, updateCollectionDto: UpdateCollectionDto) {
-		const userProfile: UserProfile = await this.profileService.findOneByUser(user);
-		if (!userProfile) {
-			throw new UnauthorizedException();
-		}
 
-		//check if collection to be updated exist
-		const previousCollection = userProfile.collections.find(col => col.id === id);
-		//const oldCollection = await this.collectionRepository.find({where:{ profile: userProfile , id: id }})
-		if (!previousCollection) {
-			throw new UnauthorizedException();
-		}
+		const [previousCollection, userProfile]  = await this.findOne(user,id);
 
 		//check if name to be assigned is not in use for another collection
 		//same name can be used in case it is not other collection
@@ -97,16 +89,8 @@ export class CollectionsService {
 	//should be something like change isActive property
 	//should cascade on both cases
 	async remove(user: User, id: string) {
-		const userProfile: UserProfile = await this.profileService.findOneByUser(user);
-		if (!userProfile) {
-			throw new UnauthorizedException();
-		}
-
-		//check if collection to be deleted exist
-		const existCollection = userProfile.collections.find(col => col.id === id);
-		if (!existCollection) {
-			throw new UnauthorizedException();
-		}
+		
+		await this.findOne(user,id);
 
 		return await this.collectionRepository.delete({ id: id });
 	}
@@ -114,16 +98,7 @@ export class CollectionsService {
 	//create a new item on a collection
 	async createCollectionItem(user: User, collectionId: string, createCollectionItemDto: CreateCollectionItemDto) {
 		//validate user exist
-		const userProfile: UserProfile = await this.profileService.findOneByUser(user);
-		if (!userProfile) {
-			throw new UnauthorizedException();
-		}
-
-		//check if collection to be deleted exist
-		const existCollection = userProfile.collections.find(col => col.id === collectionId);
-		if (!existCollection) {
-			throw new UnauthorizedException();
-		}
+		const [existCollection]  = await this.findOne(user, collectionId);
 
 		const existItem = existCollection.items.find(col => col.scryfallId === createCollectionItemDto.scryfallId);
 		if (existItem) {
@@ -141,18 +116,12 @@ export class CollectionsService {
 	//find collection by id
 	//empty throw error?
 	async findCollectionItem(user: User, collectionId: string, itemId: string) {
-		const userProfile: UserProfile = await this.profileService.findOneByUser(user);
-		if (!userProfile) {
-			throw new UnauthorizedException();
-		}
-		const existCollection = userProfile.collections.find(col => col.id === collectionId);
-		if (!existCollection) {
-			throw new UnauthorizedException();
-		}
+
+		const [existCollection]  = await this.findOne(user, collectionId);
 
 		const existItem = existCollection.items.find(col => col.id === itemId);
 		if (!existItem) {
-			throw new UnauthorizedException();
+			throw new NotFoundException();
 		}
 
 		return existItem;
@@ -160,18 +129,12 @@ export class CollectionsService {
 
 
 	async updateCollectionItem(user: User, collectionId: string, itemId: string, updateCollectionItemDto: UpdateCollectionItemDto) {
-		const userProfile: UserProfile = await this.profileService.findOneByUser(user);
-		if (!userProfile) {
-			throw new UnauthorizedException();
-		}
-		const existCollection = userProfile.collections.find(col => col.id === collectionId);
-		if (!existCollection) {
-			throw new UnauthorizedException();
-		}
+
+		const [existCollection]  = await this.findOne(user, collectionId);
 
 		const existItem = existCollection.items.find(col => col.id === itemId);
 		if (!existItem) {
-			throw new UnauthorizedException();
+			throw new NotFoundException();
 		}
 
 		const updatedCollectionItem = { ...updateCollectionItemDto, collection: existCollection, id: itemId };
@@ -180,21 +143,13 @@ export class CollectionsService {
 	}
 
 	async removeCollectionItem(user: User, collectionId: string, itemId: string) {
-		const userProfile: UserProfile = await this.profileService.findOneByUser(user);
-		if (!userProfile) {
-			throw new UnauthorizedException();
-		}
 
-		//check if collection to be deleted exist
-		const existCollection = userProfile.collections.find(col => col.id === collectionId);
-		if (!existCollection) {
-			throw new UnauthorizedException();
-		}
+		const [existCollection]  = await this.findOne(user, collectionId);
 
 		//check if item to be deleted exist
 		const existItem = existCollection.items.find(col => col.id === itemId);
 		if (!existItem) {
-			throw new UnauthorizedException();
+			throw new NotFoundException();
 		}
 
 		return await this.collectionItemRepository.delete({ id: itemId });

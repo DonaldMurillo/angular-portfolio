@@ -33,12 +33,26 @@
 		<ap-card-preview 
 			*ngFor="let card of results" 
 			[card]="card" [class.selected]="card === selected"
-			[isSelected]="card === selected" 
+			[isSelected]="card === selected"
+			[isLogged]="isLogged"
 			(imageClick)="selected = card" 
-			(unSelect)="selected =null">
+			(unSelect)="selected = null"
+			(addToCollection)="openDialog()">
 		</ap-card-preview>
-
+		
 		<!-- EMPTY LIST -->
 		<div *ngIf="!results?.length && (isLoading$ | async) === false">{{hasSearched ?'No results' : ''}}</div>
 	</div>
 </section>
+
+<!-- ADD TO COLLECTION DIALOG -->
+<p-dialog header="Select A Collection" [(visible)]="displayDialog" [style]="{'height': '50vh'}">
+	<p-dropdown [options]="userCollections" [(ngModel)]="selectedCollection" optionLabel="name"></p-dropdown>
+	<button pButton pRipple 
+		type="button" 
+		label="Add" 
+		class="p-button-text p-button-sm" 
+		(click)="addToCollection()"
+		*ngIf="isLogged">
+	</button>
+</p-dialog>

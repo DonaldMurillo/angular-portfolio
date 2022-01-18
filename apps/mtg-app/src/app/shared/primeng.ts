@@ -49,6 +49,8 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { TabViewModule } from 'primeng/tabview';
 import { SidebarModule } from 'primeng/sidebar';
 import {ToolbarModule} from 'primeng/toolbar';
+import {ConfirmPopupModule} from 'primeng/confirmpopup';
+import {DialogModule} from 'primeng/dialog';
 
 export const PRIME_MODULES: any[] = [
 	AutoCompleteModule,
@@ -102,4 +104,6 @@ export const PRIME_MODULES: any[] = [
 	SidebarModule,
 	ToolbarModule,
 	OverlayPanelModule,//TODO: ADD STYLES
+	ConfirmPopupModule,
+	DialogModule
 ]

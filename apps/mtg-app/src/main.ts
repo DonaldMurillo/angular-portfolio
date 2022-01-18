@@ -11,7 +11,8 @@ import { AuthState } from './app/services/auth/auth.models';
 
 // AKITA PERSIST STORAGE
 const storage = persistState({
-	include: ['auth'],
+	key: 'mtgapp-persist',
+	include: ['auth', 'user'],
 	preStorageUpdate(storeName: string, state: { accessToken: string; exp: number; userType: string; }) {
 		// SAVE THE TOKEN AND EXPIRATION
 		if (storeName === 'auth') {

@@ -7,6 +7,11 @@ export interface UserState {
 	showTrades: boolean;
 	theme: AppTheme | undefined;
 	isLoading: boolean;
+	//collections: Collection[];
+
+	// createdAt: Date;
+	// updatedAt: Date;
+	// isActive: boolean;
 }
 
 export function createInitialState(): UserState {
@@ -21,4 +26,5 @@ export function createInitialState(): UserState {
 };
 
 
-export type CreateProfileDto = Omit<UserState, 'id' | 'avatarImage'>
+export type CreateProfileDto = Omit<UserState, 'id' | 'avatarImage' | 'isLoading'>
+export type UpdateProfileDto = Omit<UserState, 'avatarImage' | 'isLoading'>

@@ -1,6 +1,6 @@
 <section class="form-container" [formGroup]="form">
 	<!-- TITLE -->
-	<h2 class="form-title">Create Profile</h2>
+	<h2 class="form-title">{{isCreateProfile ? 'Create' : 'Update' }} Profile</h2>
 
 	<!-- USERNAME -->
 	<div class="p-field">
@@ -31,7 +31,7 @@
 
 
 	<!-- CONTINUE -->
-	<button pButton pRipple type="button" [loading]="(isLoading$ | async) ?? false" label="Register"
+	<button pButton pRipple type="button" [loading]="(isLoading$ | async) ?? false" label="{{isCreateProfile ? 'Register' : 'Update' }}"
 		class="p-button-raised continue-button" (click)="continue()">
 	</button>
 </section>

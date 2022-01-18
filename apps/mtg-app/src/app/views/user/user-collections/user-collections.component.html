@@ -1,1 +1,52 @@
-<p>user-collections works!</p>
+<p-accordion>
+	<!-- NEW COLLECTION -->
+	<p-accordionTab header="New Collection">
+		<section class="form-container accordion" [formGroup]="form">
+			<!-- USERNAME -->
+			<div class="p-field">
+				<label for="name">Collection Name</label>
+				<input id="name" type="text" aria-describedby="name-help" pInputText formControlName="name" maxlength="20"
+					autocomplete="off" />
+				<small id="name-help" class="p-error" *ngIf="form.get('name')?.dirty && form.get('name')?.invalid">Must be
+					at least 4 characterslong.</small>
+			</div>
+
+			<!-- SHOW TRADES -->
+			<div class="p-field">
+				<label for="tradeable">Is Tradeable</label>
+				<p-selectButton [options]="tradeOptions" formControlName="tradeable" optionLabel="label"
+					optionValue="value"></p-selectButton>
+			</div>
+
+			<!-- CONTINUE -->
+			<button pButton pRipple type="button" [loading]="(isLoading$ | async) ?? false" label="Create"
+				class="p-button-raised continue-button" (click)="create()">
+			</button>
+		</section>
+	</p-accordionTab>
+	<!-- MY COLLECTION -->
+	<p-accordionTab header="My Collections">
+		<div *ngFor="let collection of collections$ | async" class="collection-list-item">
+			<p-card>
+				<ng-template pTemplate="header">
+					{{collection.name}}
+				</ng-template>
+				<div>Cards: {{collection.items?.length ?? 0}}</div>
+				<div>Tradeable: {{collection.tradeable | yesNo: 'proper'}}</div>
+				<div>Link: {{collection.name}}</div>
+				<ng-template pTemplate="footer">
+					<div class="two-buttons">
+						<!-- CONTINUE -->
+						<button pButton pRipple type="button" [loading]="(isLoading$ | async) ?? false" label="Delete"
+							class="p-button-raised p-button-danger p-button-sm" (click)="remove($event, collection.id)">
+						</button>
+						<!-- CONTINUE -->
+						<button pButton pRipple type="button" [loading]="(isLoading$ | async) ?? false" label="Edit"
+							class="p-button-raised p-button-sm" (click)="update(collection.id)">
+						</button>
+					</div>
+				</ng-template>
+			</p-card>
+		</div>
+	</p-accordionTab>
+</p-accordion>

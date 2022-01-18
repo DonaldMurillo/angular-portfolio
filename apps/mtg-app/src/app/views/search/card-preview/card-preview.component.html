@@ -3,11 +3,39 @@
 	<img src="{{card?.imageUris?.small}}" alt="" class="card-image" (click)="clicked()">
 </span>
 
+<!-- IF SELECTED TEMPLATE -->
 <ng-template #selectedTemp>
 	<div class="card-prev-container">
+		<!-- CARD TITLE -->
 		<h4 class="card-name">{{card.name}}</h4>
-		<img src="{{card?.imageUris?.small}}" alt="" class="card-image" >
-
+		<!-- CARD PREVIEW BODY -->
+		<div class="card-prev-body">
+			<!-- CARD IMAGE -->
+			<img src="{{card?.imageUris?.small}}" alt="" class="card-prev-image" >
+			<!-- ACTIONS -->
+			<div class="card-prev-actions">
+				<button pButton pRipple 
+					type="button" 
+					label="View in Scryfall" 
+					class="p-button-text p-button-sm"
+					(click)="openScryfall()">
+				</button>
+				<!-- IF IS LOGGED ACTIONS -->
+				<ng-container *ngIf="isLogged">
+					<button pButton pRipple 
+						type="button" 
+						label="Add to collection" 
+						class="p-button-text p-button-sm" 
+						(click)="addToCollection.emit()"
+						>
+					</button>
+					<div class="card-prev-col-icon">
+						<div hidden [apCardInCollection]="card"></div>
+					</div>
+				</ng-container>
+			</div>
+		</div>
+		<!-- CLOSE ICON -->
 		<i class="pi pi-times close-button" (click)="close()"></i>
 	</div>
 </ng-template>

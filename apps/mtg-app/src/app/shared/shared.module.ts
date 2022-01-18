@@ -5,7 +5,10 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { PRIME_MODULES } from './primeng';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MessageService } from 'primeng/api';
-
+import { YesNoPipe } from './pipes/yes-no.pipe';
+import {ConfirmationService} from 'primeng/api';
+import { CardInCollectionDirective } from './directives/card-in-collection.directive';
+import { CollectionIconComponent } from './components/collection-icon/collection-icon.component';
 
 const MODULES = [
 	PRIME_MODULES,
@@ -16,14 +19,21 @@ const MODULES = [
 	FormsModule,
 ];
 
+const DECLARATIONS = [
+	YesNoPipe, 
+	CardInCollectionDirective, 
+	CollectionIconComponent
+]
+
 @NgModule({
-	declarations: [],
+	declarations: [DECLARATIONS],
 	imports: [
 		MODULES,
 	],
 	exports: [
-		MODULES
+		MODULES,
+		DECLARATIONS
 	],
-	providers: [MessageService]
+	providers: [MessageService, ConfirmationService]
 })
 export class SharedModule { }

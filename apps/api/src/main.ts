@@ -31,7 +31,7 @@ async function bootstrap() {
 
 	const swagger = setupSwagger(app, Number(port), globalPrefix); // THIS LINE HAS TO BE AFTER THE GLOBAL PREFIX
 
-	await app.listen(port);
+	await app.listen(port, '0.0.0.0');
 	Logger.log(
 		`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
 	);

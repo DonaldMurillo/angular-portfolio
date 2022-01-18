@@ -16,7 +16,13 @@ body {
 	}
 }
 
+// utils
 
+.two-buttons {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
 
 
 .app-container {
@@ -62,6 +68,27 @@ body {
 
 	.continue-button {
 		margin-top: 2rem;
+	}
+
+	.app-body {
+		max-width: 40rem;
+		padding: 0rem 1rem 1rem 1rem;
+		margin: auto;
+	}
+
+	ap-collection-icon {
+		display: inline-block;
+		width: fit-content!important;
+		small {
+			display: flex;
+		}
+		button {
+			margin: auto;
+			justify-content: center;
+			display: flex;
+			width: 2rem!important; 
+			height: 2rem!important;
+		}
 	}
 }
 
@@ -132,6 +159,10 @@ body {
 			border-top-right-radius: 0px;
 		}
 	}
+
+	&.accordion {
+		padding: 0rem;
+	}
 }
 
 .card-display-list {
@@ -179,6 +210,16 @@ body {
 				margin-top: 0px;
 				text-align: center;
 			}
+
+			.card-prev-body {
+				display: grid;
+				// gap: 0.5rem;
+				grid-template-columns: 33% 67%;
+
+				.card-prev-actions {
+					padding: 0.5rem;
+				}
+			}
 			
 			.close-button {
 				position: absolute;
@@ -193,6 +234,11 @@ body {
 					color: var(--primary-color);
 				}
 			}
+
+			.card-prev-col-icon {
+				display: flex;
+				justify-content: space-around;
+			}
 		}
 	}
 
@@ -200,4 +246,14 @@ body {
 		width: 33.3333%;
 	}
 
+}
+
+.collection-list-item {
+	margin-bottom: 1rem;
+
+	.p-card-header {
+		text-align: center;
+		font-size: 1.5rem;
+		padding-top: 0.5rem;
+	}
 }

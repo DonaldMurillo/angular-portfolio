@@ -1,10 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Patch, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CredentialsDto } from './dto/credentials.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { UserType } from '../../shared/enums/auth.enum';
+import { GetUser } from '../../shared/decorators/get-user.decorator';
+import { User } from './entities/user.entity';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -26,15 +29,31 @@ export class AuthController {
 		return this.authService.signIn(credentialsDto, UserType.admin);
 	}
 
-
-
+  @UseGuards(AuthGuard())
 	@Patch('password-update')
-	update(@Body() updateAuthDto: UpdateUserDto) {
-		// get username from auth token
-		// return this.authService.update(updateAuthDto);
+	passwordUpdate(@GetUser(UserType.user) user: User, @Body() updateUserPasswordDto: UpdateUserPasswordDto) {
+		return this.authService.updatePassword(user, updateUserPasswordDto);
 	}
 
+  //working, not in use
+  //@UseGuards(AuthGuard())
+	//@Patch('email-update')
+	//emaildUpdate(@GetUser(UserType.user) user: User, @Body() emailRequest: User) {
+  //  console.log();
+  //  return this.authService.updateEmail(user, emailRequest.email);
+	//}
 
+  //expected to be done throught userProfile Module
+  //remove( user: User) {
+	//  return this.authService.remove(user);
+	//}
+
+  //working, not in use, in case user will be able to delete its own info
+  //@UseGuards(AuthGuard())
+	//@Delete('user-delete')
+	//userDelete(@GetUser(UserType.user) user: User) {
+	//	return this.authService.remove(user);
+	//}
 
 
 	// @Get()
@@ -52,8 +71,5 @@ export class AuthController {
 	//   return this.authService.update(+id, updateAuthDto);
 	// }
 
-	// @Delete(':id')
-	// remove(@Param('id') id: string) {
-	//   return this.authService.remove(+id);
-	// }
+
 }

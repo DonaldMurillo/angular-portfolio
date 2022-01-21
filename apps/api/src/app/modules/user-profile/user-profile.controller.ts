@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UnauthorizedException } from '@nestjs/common';
+import { Controller, Post, Body, Patch, Param, Delete, UseGuards, UnauthorizedException } from '@nestjs/common';
 import { UserProfileService } from './user-profile.service';
 import { CreateUserProfileDto } from './dto/create-user-profile.dto';
 import { UpdateUserProfileDto } from './dto/update-user-profile.dto';
@@ -35,6 +35,24 @@ export class UserProfileController {
 	signIn(@Body() userCredentialsDto: CredentialsDto) {
 		return this.userProfileService.signIn(userCredentialsDto);
 	}
+
+  @UseGuards(AuthGuard())
+  @Patch('update-profile')
+	/*swagger tag responses
+	@ApiResponse({ status: 201, description: 'The record has been successfully updated.'})*/
+	update(@GetUser(UserType.user) user: User, @Body() UpdateUserProfileDto: UpdateUserProfileDto) {
+    return this.userProfileService.update(user, UpdateUserProfileDto);
+	}
+
+  @UseGuards(AuthGuard())
+  @Delete('delete-profile')
+	/*swagger tag responses
+	@ApiResponse({ status: 201, description: 'The record has been successfully updated.'})*/
+	delete(@GetUser(UserType.user) user: User) {
+    return this.userProfileService.remove(user);
+	}
+
+
 
 	//   @Get()
 	//   findAll() {

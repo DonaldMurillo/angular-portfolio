@@ -1,6 +1,7 @@
 import { Entity, Column, BeforeInsert } from "typeorm";
 import { BaseEntity } from '../../../shared/entities/base.entity';
 import * as bcrypt from 'bcrypt';
+import { UserType } from '../../../shared/enums/auth.enum';
 
 @Entity()
 export class User extends BaseEntity {
@@ -19,7 +20,8 @@ export class User extends BaseEntity {
   email: string;
 
   @Column({
-    nullable: false
+    nullable: false,
+    default: UserType.user
   })
   userType: string;
 
@@ -34,9 +36,11 @@ export class User extends BaseEntity {
     this.password = await bcrypt.hash(password || this.password, salt)
   }
 
+
   //failed attemps
   //last failed attempt
   //last login
   //reset password status
   //reset password last request
 }
+

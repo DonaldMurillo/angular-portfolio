@@ -1,6 +1,6 @@
-import { ConflictException, ForbiddenException, GoneException, Injectable, NotFoundException, UnauthorizedException, UnprocessableEntityException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Exclusion, Repository } from 'typeorm';
+import {  Repository } from 'typeorm';
 import { tryAndSaveEntity } from '../../shared/utils/base-functions';
 import { User } from '../auth/entities/user.entity';
 import { UserProfile } from '../user-profile/entities/user-profile.entity';
@@ -89,7 +89,7 @@ export class CollectionsService {
 	//should be something like change isActive property
 	//should cascade on both cases
 	async remove(user: User, id: string) {
-		
+
 		await this.findOne(user,id);
 
 		return await this.collectionRepository.delete({ id: id });

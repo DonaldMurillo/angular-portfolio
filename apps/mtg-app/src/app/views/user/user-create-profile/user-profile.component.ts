@@ -57,11 +57,14 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 		this.appService.toggleTheme(theme)
 	}
 
-	continue() {
+  continue() {
 		this.form.markAllAsTouched();
 		if (this.form.invalid) return;
-		if (this.isCreateProfile) this.service.updateProfile(this.form.value)
-		else this.service.createProfile(this.form.value)
+		if (!this.isCreateProfile) this.service.updateProfile(this.form.value)
+		else {
+			const { id, ...createProfile } = this.form.value
+			this.service.createProfile(createProfile);
+		}
 	}
 
 	ngOnDestroy(): void {

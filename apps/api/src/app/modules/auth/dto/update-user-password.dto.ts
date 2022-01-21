@@ -1,8 +1,8 @@
-import { Equals, IsNotEmpty, Matches } from 'class-validator';
+import { IsNotEmpty, Matches } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 
-export class UpdateUserDto {
+export class UpdateUserPasswordDto {
 
   @ApiProperty({
     required: true,
@@ -40,4 +40,3 @@ export class UpdateUserDto {
 	repeatNewPassword: string;
 
 }
-

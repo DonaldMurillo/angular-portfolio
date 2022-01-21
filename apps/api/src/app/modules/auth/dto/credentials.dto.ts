@@ -8,7 +8,8 @@ export class CredentialsDto {
     required: true,
     format: 'string',
     minLength: 4,
-    maxLength: 20
+    maxLength: 20,
+    uniqueItems: true
   })
 	@IsAlphanumeric()
 	@Length(4,20)

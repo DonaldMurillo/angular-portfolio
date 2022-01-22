@@ -4,7 +4,7 @@ import { AuthState, createInitialState } from './auth.models';
 
 
 @Injectable({ providedIn: 'root' })
-@StoreConfig({ name: 'auth', resettable: true,  })
+@StoreConfig({ name: 'auth-store', resettable: true })
 export class AuthStore extends Store<AuthState> {
 
 	constructor() {

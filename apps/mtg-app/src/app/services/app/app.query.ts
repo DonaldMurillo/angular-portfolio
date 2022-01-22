@@ -30,7 +30,7 @@ export class AppQuery extends Query<AppState> {
 			const curTheme = userTheme ?? theme ?? 'light';
 			const styles = document?.getElementById('darkTheme') as HTMLLinkElement;
 			styles.href = `assets/styles/lara-${curTheme}-purple/theme.css`;
-			this.menuItems$.next(this.setMenu(curTheme, authUser.userId));
+			this.menuItems$.next(this.setMenu(curTheme, authUser.userId ?? undefined));
 		})
 	}
 

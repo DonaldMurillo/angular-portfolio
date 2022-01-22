@@ -17,7 +17,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
 	private destroy$ = new Subject();
 	items$!: Observable<MenuItem[]>;
 	theme$!: Observable<AppTheme>;
-	userId: string | undefined;
+	userId!: string | null;
 
 	constructor(private query: AppQuery, private service: AppService, private authQuery: AuthQuery, private authService: AuthService) { }
 	

@@ -157,12 +157,7 @@ export class CollectionsService {
 		return await this.collectionItemRepository.delete({ id: itemId });
 	}
 
-  async share(user: User, userNickname: string, collectionName: string) {
-    //verify actual user already have a profile set
-    const userProfile: UserProfile = await this.profileService.findOneByUser(user);
-		if (!userProfile) {
-      throw new UnauthorizedException();
-		}
+  async share(userNickname: string, collectionName: string) {
 
     //verify shared user profile exists
     const sharedUserProfile: UserProfile = await this.userProfileRepository.findOne({nickname: userNickname});

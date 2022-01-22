@@ -82,10 +82,9 @@ export class CollectionsController {
     return this.collectionsService.removeCollectionItem(user, collectionId, itemId);
   }
 
-  @UseGuards(AuthGuard())
   @Get(':userNickname/:collectionName')
-  share(@GetUser(UserType.user) user: User, @Param('userNickname') userNickname: string , @Param('collectionName') collectionName: string) {
-    return this.collectionsService.share(user, userNickname, collectionName);
+  share(@Param('userNickname') userNickname: string , @Param('collectionName') collectionName: string) {
+    return this.collectionsService.share(userNickname, collectionName);
   }
 
 }

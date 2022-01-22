@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotAcceptableException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { tryAndSaveEntity } from '../../shared/utils/base-functions';
@@ -29,10 +29,10 @@ export class CollectionsService {
 		if (!userProfile || userProfile.id !== createCollectionDto.profileId) {
 			throw new UnauthorizedException();
 		}
-		const reviewCollection = await this.collectionRepository.find({ where: { profile: userProfile, name: createCollectionDto.name } })
+		const existingCollection = await this.collectionRepository.find({ where: { profile: userProfile, name: createCollectionDto.name } })
 		//avoid creation of same collection name for one user
-		if (reviewCollection.length) {
-			throw new UnauthorizedException();
+		if (existingCollection.length) {
+			throw new NotAcceptableException({ message: 'Name already exists'});
 		}
 		const collection = this.collectionRepository.create({ ...createCollectionDto, profile: userProfile });
 		const { profile, ...newCollection } = await tryAndSaveEntity(collection, this.collectionRepository);
@@ -92,9 +92,8 @@ export class CollectionsService {
 	//should cascade on both cases
 	async remove(user: User, id: string) {
 
-		await this.findOne(user,id);
-
-		return await this.collectionRepository.delete({ id: id });
+		const [collection] = await this.findOne(user,id);
+		return await this.collectionRepository.remove(collection);
 	}
 
 	//create a new item on a collection

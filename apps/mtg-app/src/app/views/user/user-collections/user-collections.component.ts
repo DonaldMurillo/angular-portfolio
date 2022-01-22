@@ -46,7 +46,10 @@ export class UserCollectionsComponent implements OnInit {
 		if (this.form.invalid) return;
 		this.service.add<Collection>({ ...this.form.value, profileId: this.userQuery.getValue().id })
 			.subscribe({
-				next: (collection) => this.service.messagingService.add(createSuccessMessage('Collection Succesfully Created')),
+				next: (collection) => {
+					this.service.messagingService.add(createSuccessMessage('Collection Succesfully Created'))
+					this.form.reset({ tradeable: false })
+				},
 				error: (error: HttpErrorResponse) => this.service.messagingService.add(createErrorMessage(error))
 			});
 	}
@@ -59,7 +62,12 @@ export class UserCollectionsComponent implements OnInit {
 			icon: 'pi pi-exclamation-triangle',
 			accept: () => {
 				 //confirm action
-				 this.service.delete(id).subscribe();
+				 this.service.delete(id).subscribe(
+					{
+						next: (collection) => this.service.messagingService.add(createSuccessMessage('Collection Succesfully Removed')),
+						error: (error: HttpErrorResponse) => this.service.messagingService.add(createErrorMessage(error))
+					}
+				 );
 			},
 			reject: () => {
 				 //reject action

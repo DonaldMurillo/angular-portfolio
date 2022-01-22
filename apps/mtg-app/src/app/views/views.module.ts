@@ -15,10 +15,17 @@ const COMPONENTS = [
 	NavBarComponent, 
 	FooterComponent, 
 	SearchComponent,
+	UserComponent,
+	UserCollectionsComponent,
+	UserAccountComponent,
+	UserProfileComponent,
+	UserLoginComponent,
+	UserSignupComponent,
+	CardPreviewComponent
 ]
 
 @NgModule({
-	declarations: [COMPONENTS, UserComponent, UserCollectionsComponent, UserAccountComponent, UserProfileComponent, UserLoginComponent, UserSignupComponent, CardPreviewComponent],
+	declarations: [COMPONENTS],
 	imports: [
 		SharedModule
 	],

@@ -248,8 +248,8 @@ body {
 			}
 
 			.card-prev-col-icon {
-				display: flex;
-				justify-content: space-around;
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(3rem, 1fr));
 			}
 		}
 	}

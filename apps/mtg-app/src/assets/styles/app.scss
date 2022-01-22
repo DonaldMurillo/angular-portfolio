@@ -27,9 +27,9 @@ body {
 
 .app-container {
 	display: grid;
-	grid-template: 4rem calc(100vh - 8rem) 4rem / auto;
+	grid-template: 4rem calc(100vh - 8rem) 0rem 4rem / auto;
 	overflow: hidden;
-
+	
 	> section {
 		overflow: auto;
 	}
@@ -59,6 +59,18 @@ body {
 			> * {
 				margin: auto 0.5rem;
 			}
+		}
+	}
+
+	ap-scroll-top {
+		> div {
+			
+			max-width: 28rem;
+			margin: auto;
+			margin-top: -6rem;
+			padding-right: 3rem;
+			display: flex;
+			justify-content: flex-end;
 		}
 	}
 

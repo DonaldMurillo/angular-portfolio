@@ -18,7 +18,9 @@ export class CollectionsService {
 	constructor(
 		private profileService: UserProfileService,
 		@InjectRepository(Collection) private collectionRepository: Repository<Collection>,
-		@InjectRepository(CollectionItem) private collectionItemRepository: Repository<CollectionItem>
+		@InjectRepository(CollectionItem) private collectionItemRepository: Repository<CollectionItem>,
+    @InjectRepository(UserProfile) private userProfileRepository: Repository<UserProfile>
+
 	) { }
 
 	//create new collection
@@ -153,6 +155,29 @@ export class CollectionsService {
 		}
 
 		return await this.collectionItemRepository.delete({ id: itemId });
+	}
+
+  async share(user: User, userNickname: string, collectionName: string) {
+    //verify actual user already have a profile set
+    const userProfile: UserProfile = await this.profileService.findOneByUser(user);
+		if (!userProfile) {
+      throw new UnauthorizedException();
+		}
+
+    //verify shared user profile exists
+    const sharedUserProfile: UserProfile = await this.userProfileRepository.findOne({nickname: userNickname});
+		if (!sharedUserProfile) {
+			throw new NotFoundException();
+		}
+
+    //verify collection exist, and also, it is shareable
+		const collection = sharedUserProfile.collections.find(col => col.name === collectionName && col.tradeable === true);
+		if (!collection) {
+			throw new NotFoundException();
+		}
+
+    return collection;
+
 	}
 
 }

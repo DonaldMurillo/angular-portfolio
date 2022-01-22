@@ -13,7 +13,6 @@ import { UserType } from '../../shared/enums/auth.enum';
 import { UpdateUserProfileDto } from './dto/update-user-profile.dto';
 import { CollectionItem } from '../collections/entities/collection-item.entity';
 import { Collection } from '../collections/entities/collection.entity';
-import { ApiOkResponse } from '@nestjs/swagger';
 
 @Injectable()
 export class UserProfileService {

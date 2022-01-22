@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, MisdirectedException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { GetUser } from '../../shared/decorators/get-user.decorator';
@@ -14,6 +14,7 @@ import { UpdateCollectionDto } from './dto/update-collection.dto';
 @Controller('collections')
 export class CollectionsController {
   constructor(private readonly collectionsService: CollectionsService) {}
+
 
   //create a new collection for logged user
   //avoid same user create same collection name
@@ -79,6 +80,12 @@ export class CollectionsController {
   @Delete(':collectionId/item/:itemId')
   removeCollectionItem(@GetUser(UserType.user) user: User, @Param('collectionId') collectionId: string, @Param('itemId') itemId: string ) {
     return this.collectionsService.removeCollectionItem(user, collectionId, itemId);
+  }
+
+  @UseGuards(AuthGuard())
+  @Get(':userNickname/:collectionName')
+  share(@GetUser(UserType.user) user: User, @Param('userNickname') userNickname: string , @Param('collectionName') collectionName: string) {
+    return this.collectionsService.share(user, userNickname, collectionName);
   }
 
 }

@@ -27,4 +27,4 @@ export function createInitialState(): UserState {
 
 
 export type CreateProfileDto = Omit<UserState, 'id' | 'avatarImage' | 'isLoading'>
-export type UpdateProfileDto = Omit<UserState, 'avatarImage' | 'isLoading'>
+export type UpdateProfileDto = Partial<Omit<UserState, 'avatarImage' | 'isLoading'>>

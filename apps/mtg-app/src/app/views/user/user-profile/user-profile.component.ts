@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserQuery } from '../../../services/user/user.query';
 import { AppService } from '../../../services/app/app.service';
 import { UserService } from '../../../services/user/user.service';
+import { AppTheme } from '../../../services/app/app.model';
 
 @Component({
 	selector: 'ap-user-profile',
@@ -53,7 +54,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 		})
 	}
 
-	toggleTheme(theme: 'light' | 'dark') {
+	toggleTheme(theme: AppTheme) {
 		this.appService.toggleTheme(theme)
 	}
 

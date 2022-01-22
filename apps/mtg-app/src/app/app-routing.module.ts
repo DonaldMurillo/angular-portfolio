@@ -1,6 +1,6 @@
 import { UserSignupComponent } from './views/user/user-signup/user-signup.component';
 import { UserLoginComponent } from './views/user/user-login/user-login.component';
-import { UserProfileComponent } from './views/user/user-create-profile/user-profile.component';
+import { UserProfileComponent } from './views/user/user-profile/user-profile.component';
 import { UserAccountComponent } from './views/user/user-account/user-account.component';
 import { UserCollectionsComponent } from './views/user/user-collections/user-collections.component';
 import { SearchComponent } from './views/search/search.component';

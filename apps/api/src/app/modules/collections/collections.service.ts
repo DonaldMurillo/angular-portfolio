@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {  Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { tryAndSaveEntity } from '../../shared/utils/base-functions';
 import { User } from '../auth/entities/user.entity';
 import { UserProfile } from '../user-profile/entities/user-profile.entity';

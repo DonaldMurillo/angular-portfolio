@@ -1,7 +1,7 @@
 //user profile service
 
 import { AuthService } from './../auth/auth.service';
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, NotAcceptableException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Connection } from 'typeorm';
 import { CreateUserProfileDto } from './dto/create-user-profile.dto';
@@ -57,9 +57,9 @@ export class UserProfileService {
 		}
 
 		//avoid creation of same nickname on many users
-		if (updateUserProfileDto.nickname) {
+		if (updateUserProfileDto.nickname && updateUserProfileDto.nickname !== userProfile.nickname) {
 			const checkProfile = await this.userProfileRepository.findOne({ where: { nickname: updateUserProfileDto.nickname } })
-			if (checkProfile) throw new UnauthorizedException();
+			if (checkProfile) throw new NotAcceptableException();
 		}
 
 		const newUserProfile = this.userProfileRepository.merge(userProfile, updateUserProfileDto);

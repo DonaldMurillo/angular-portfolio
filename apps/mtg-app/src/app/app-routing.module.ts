@@ -9,6 +9,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserGuard } from './services/user/user.guard';
 import { UserComponent } from './views/user/user.component';
 import { UpdatePasswordComponent } from './views/user/update-password/update-password.component';
+import { PublicCollectionsComponent } from './views/public-collections/public-collections.component';
 
 //https://angular.io/guide/lazy-loading-ngmodules
 //ng generate module customers --route customers --module app.module
@@ -25,6 +26,9 @@ const routes: Routes = [
 		{ path: '', component: UserProfileComponent, pathMatch: 'full' },
 		{ path: 'collections', component: UserCollectionsComponent },
 	]},
+
+	{ path: 'collections/:userNickname/:collectionName', component: PublicCollectionsComponent, pathMatch: 'full' },
+
 
 	{ path: '**', redirectTo: 'search', pathMatch: 'full' }, // TODO: MAKE 404 PAGE;
 ];

@@ -33,7 +33,11 @@
 				</ng-template>
 				<div>Cards: {{collection.items?.length ?? 0}}</div>
 				<div>Tradeable: {{collection.tradeable | yesNo: 'proper'}}</div>
-				<div>Link: {{collection.name}}</div>
+				<div class="collection-link" 
+					(click)="copyToClipboard(getCollectionLink(collection))"
+					*ngIf="collection.tradeable">
+					Link: {{getCollectionLink(collection)}}
+				</div>
 				<ng-template pTemplate="footer">
 					<div class="two-buttons">
 						<!-- CONTINUE -->

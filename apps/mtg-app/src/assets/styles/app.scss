@@ -24,6 +24,10 @@ body {
 	width: 100%;
 }
 
+.w-100 {
+	width: 100%;
+}
+
 .link {
 	color: var(--text-color-secondary)
 }
@@ -273,5 +277,25 @@ body {
 		text-align: center;
 		font-size: 1.5rem;
 		padding-top: 0.5rem;
+	}
+
+	.collection-link {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		cursor: pointer;
+	}
+}
+
+.public-collection {
+	max-width: 40rem;
+	margin: auto;
+
+	.public-collection-title {
+		text-align: center;
+	}
+
+	.card-image {
+		padding: 0.5rem;
 	}
 }

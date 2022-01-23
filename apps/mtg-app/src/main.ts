@@ -28,7 +28,6 @@ const storage = persistState({
 	},
 	preStoreUpdate(storeName: string, state: { accessToken: string; }) {
 		// DECODES THE TOKEN AND REHYDRATES THE STORE
-		console.log(storeName,state)
 		if (storeName === 'auth') {
 			const authUser = jwt_decode<AuthState>(state.accessToken);
 			return { ...authUser, accessToken: state.accessToken, userType: authUser.userType ?? 'user' };

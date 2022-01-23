@@ -11,6 +11,7 @@ import { UserLoginComponent } from './user/user-login/user-login.component';
 import { UserSignupComponent } from './user/user-signup/user-signup.component';
 import { CardPreviewComponent } from './search/card-preview/card-preview.component';
 import { UpdatePasswordComponent } from './user/update-password/update-password.component';
+import { PublicCollectionsComponent } from './public-collections/public-collections.component';
 
 const COMPONENTS = [
 	NavBarComponent, 
@@ -27,7 +28,7 @@ const COMPONENTS = [
 ]
 
 @NgModule({
-	declarations: [COMPONENTS],
+	declarations: [COMPONENTS, PublicCollectionsComponent],
 	imports: [
 		SharedModule
 	],

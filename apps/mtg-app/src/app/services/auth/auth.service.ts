@@ -2,12 +2,11 @@ import { UserState } from './../user/user.models';
 import { ScryfallSearchStore } from './../scryfall-search/scryfall-search.store';
 import { environment } from './../../../environments/environment';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { AuthState, CreateUserCommand, UpdatePasswordDto, UserCredentials } from './auth.models';
 import { AuthStore } from './auth.store';
 import jwt_decode from "jwt-decode";
-import { PersistState } from '@datorama/akita';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { UserService } from '../user/user.service';
@@ -26,8 +25,7 @@ export class AuthService {
 		private messageService: MessageService,
 		private scryfallStore: ScryfallSearchStore,
 		private userService: UserService,
-		private collectionSerive: CollectionsService,
-		@Inject('persistStorage') private persistStorage: PersistState) {
+		private collectionSerive: CollectionsService) {
 
 	}
 
@@ -95,8 +93,14 @@ export class AuthService {
 		this.authStore.reset();
 		this.userService.reset();
 		this.collectionSerive.reset();
-		this.persistStorage.clearStore();
-		this.router.navigate(['user', 'login']).then(() => this.scryfallStore.reset());
+
+		// this.persistStorage.clearStore();
+		this.router.navigate(['user', 'login']).then(() => {
+			this.scryfallStore.reset();
+			localStorage.clear();
+			localStorage.removeItem('authStore');
+			localStorage.removeItem('userStore');
+		});
 	}
 
 }

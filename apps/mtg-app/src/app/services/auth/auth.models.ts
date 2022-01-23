@@ -28,3 +28,9 @@ export function createInitialState(): AuthState {
 		userId: null
 	};
 }
+
+export interface UpdatePasswordDto {
+	oldPassword: string;
+	newPassword: string;
+	repeatNewPassword: string;
+}

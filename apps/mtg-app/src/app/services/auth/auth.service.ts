@@ -4,7 +4,7 @@ import { environment } from './../../../environments/environment';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { first } from 'rxjs/operators';
-import { AuthState, CreateUserCommand, UserCredentials } from './auth.models';
+import { AuthState, CreateUserCommand, UpdatePasswordDto, UserCredentials } from './auth.models';
 import { AuthStore } from './auth.store';
 import jwt_decode from "jwt-decode";
 import { PersistState } from '@datorama/akita';
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { UserService } from '../user/user.service';
 import { CollectionsService } from '../user/collections/collections.service';
+import { createErrorMessage, createSuccessMessage } from '../../shared/utils/message.helpers';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -41,7 +42,7 @@ export class AuthService {
 					this.router.navigate(['user', authUser.userId, 'create-profile']);
 				},
 				error: (error: HttpErrorResponse) => {
-					this.messageService.add({ key: 'tc', severity: 'error', summary: 'error', detail: error.error.message, });
+					this.messageService.add(createErrorMessage(error));
 					this.authStore.update(state => ({ ...state, isLoading: false }));
 				},
 				complete: () => {
@@ -63,6 +64,25 @@ export class AuthService {
 				},
 				error: (error: HttpErrorResponse) => {
 					this.messageService.add({ key: 'tc', severity: 'error', summary: 'error', detail: error.error.message });
+					this.authStore.update(state => ({ ...state, isLoading: false }));
+				},
+				complete: () => {
+					this.authStore.update(state => ({ ...state, isLoading: false }));
+				}
+			});
+	}
+
+	updatePassword(updatePasswordDto: UpdatePasswordDto) {
+		this.authStore.update(state => ({ ...state, isLoading: true }));
+		this.http.patch<any>(this.baseUrl + 'auth/password-update', updatePasswordDto)
+			.pipe(first())
+			.subscribe({
+				next: () => {
+					this.messageService.add(createSuccessMessage('Password Updated!'));
+					this.router.navigate(['my-account']);
+				},
+				error: (error: HttpErrorResponse) => {
+					this.messageService.add(createErrorMessage(error));
 					this.authStore.update(state => ({ ...state, isLoading: false }));
 				},
 				complete: () => {

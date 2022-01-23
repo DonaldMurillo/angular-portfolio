@@ -10,6 +10,7 @@ import { UserProfileComponent } from './user/user-profile/user-profile.component
 import { UserLoginComponent } from './user/user-login/user-login.component';
 import { UserSignupComponent } from './user/user-signup/user-signup.component';
 import { CardPreviewComponent } from './search/card-preview/card-preview.component';
+import { UpdatePasswordComponent } from './user/update-password/update-password.component';
 
 const COMPONENTS = [
 	NavBarComponent, 
@@ -21,7 +22,8 @@ const COMPONENTS = [
 	UserProfileComponent,
 	UserLoginComponent,
 	UserSignupComponent,
-	CardPreviewComponent
+	CardPreviewComponent,
+	UpdatePasswordComponent
 ]
 
 @NgModule({

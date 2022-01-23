@@ -29,9 +29,10 @@
 		</p-selectButton>
 	</div>
 
-
 	<!-- CONTINUE -->
 	<button pButton pRipple type="button" [loading]="(isLoading$ | async) ?? false" label="{{isCreateProfile ? 'Register' : 'Update' }}"
 		class="p-button-raised continue-button" (click)="continue()">
 	</button>
 </section>
+
+<a [routerLink]="['../update-password']" class="link">Change password</a>

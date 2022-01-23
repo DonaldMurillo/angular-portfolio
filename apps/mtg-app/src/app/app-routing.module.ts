@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserGuard } from './services/user/user.guard';
 import { UserComponent } from './views/user/user.component';
+import { UpdatePasswordComponent } from './views/user/update-password/update-password.component';
 
 //https://angular.io/guide/lazy-loading-ngmodules
 //ng generate module customers --route customers --module app.module
@@ -18,6 +19,7 @@ const routes: Routes = [
 	{ path: 'user/login', component: UserLoginComponent, pathMatch: 'full' },
 	{ path: 'user/signup', component: UserSignupComponent, pathMatch: 'full' },
 	{ path: 'user/:userId/create-profile', component: UserProfileComponent, pathMatch: 'full', canActivate: [UserGuard] },
+	{ path: 'user/:userId/update-password', component: UpdatePasswordComponent, pathMatch: 'full', canActivate: [UserGuard] },
 	
 	{ path: 'user/:userId/my-account', component: UserComponent, canActivate: [UserGuard], children: [
 		{ path: '', component: UserProfileComponent, pathMatch: 'full' },

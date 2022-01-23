@@ -1,17 +1,17 @@
-import { AuthQuery } from './../../../services/auth/auth.query';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from '../../../services/auth/auth.service';
-import { Observable, takeUntil, Subject, combineLatest, startWith } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { passwordPattern } from '../../../shared/constants/regex';
+import { combineLatest, Observable, startWith, Subject, takeUntil } from 'rxjs';
+import { AuthQuery } from '../../../services/auth/auth.query';
+import { AuthService } from '../../../services/auth/auth.service';
 import { PasswordCheck } from '../../../services/user/user.models';
+import { passwordPattern } from '../../../shared/constants/regex';
 
 @Component({
-	selector: 'ap-user-signup',
-	templateUrl: './user-signup.component.html',
-	styleUrls: ['./user-signup.component.scss']
+	selector: 'ap-update-password',
+	templateUrl: './update-password.component.html',
+	styleUrls: ['./update-password.component.scss']
 })
-export class UserSignupComponent implements OnInit, OnDestroy {
+export class UpdatePasswordComponent implements OnInit, OnDestroy {
 
 	private destroy$ = new Subject();
 	private pattern = passwordPattern;
@@ -19,14 +19,13 @@ export class UserSignupComponent implements OnInit, OnDestroy {
 	isLoading$!: Observable<boolean>;
 	passwordCheck!: PasswordCheck;
 
-	password = new FormControl('', [Validators.required, Validators.pattern(this.pattern)]);
-	cPassword = new FormControl('', [Validators.required, Validators.pattern(this.pattern)]);
+	newPassword = new FormControl('', [Validators.required, Validators.pattern(this.pattern)]);
+	repeatNewPassword = new FormControl('', [Validators.required, Validators.pattern(this.pattern)]);
 
 	form: FormGroup = new FormGroup({
-		username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]),
-		email: new FormControl('', [Validators.email, Validators.required]),
-		password: this.password,
-		cPassword: this.cPassword,
+		oldPassword: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]),
+		newPassword: this.newPassword,
+		repeatNewPassword: this.repeatNewPassword,
 	})
 
 	constructor(private service: AuthService, private query: AuthQuery) { }
@@ -34,8 +33,8 @@ export class UserSignupComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.isLoading$ = this.query.select('isLoading');
 		combineLatest([
-			this.password.valueChanges.pipe(startWith(this.password.value)),
-			this.cPassword.valueChanges.pipe(startWith(this.cPassword.value))
+			this.newPassword.valueChanges.pipe(startWith(this.newPassword.value)),
+			this.repeatNewPassword.valueChanges.pipe(startWith(this.repeatNewPassword.value))
 		])
 		.pipe(takeUntil(this.destroy$))
 			.subscribe(([value, confirm]) => {
@@ -58,7 +57,7 @@ export class UserSignupComponent implements OnInit, OnDestroy {
 	continue() {
 		this.form.markAllAsTouched();
 		if (this.form.invalid) return;
-		this.service.userSignUp(this.form.value);
+		this.service.updatePassword(this.form.value);
 	}
 
 	ngOnDestroy(): void {

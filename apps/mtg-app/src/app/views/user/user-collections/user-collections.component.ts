@@ -8,6 +8,8 @@ import { UserQuery } from '../../../services/user/user.query';
 import { Collection } from '../../../services/user/collections/collection.model';
 import { RouterHelperService } from '../../../services/helpers/router-helper.service';
 import { ConfirmationService } from 'primeng/api';
+import { createErrorMessage, createSuccessMessage } from '../../../shared/utils/message.helpers';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
 	selector: 'ap-user-collections',
@@ -42,7 +44,14 @@ export class UserCollectionsComponent implements OnInit {
 	create() {
 		this.form.markAllAsTouched();
 		if (this.form.invalid) return;
-		this.service.add({ ...this.form.value, profileId: this.userQuery.getValue().id }).subscribe();
+		this.service.add<Collection>({ ...this.form.value, profileId: this.userQuery.getValue().id })
+			.subscribe({
+				next: (collection) => {
+					this.service.messagingService.add(createSuccessMessage('Collection Succesfully Created'))
+					this.form.reset({ tradeable: false })
+				},
+				error: (error: HttpErrorResponse) => this.service.messagingService.add(createErrorMessage(error))
+			});
 	}
 
 	remove(event: Event, id?: string) {
@@ -53,7 +62,12 @@ export class UserCollectionsComponent implements OnInit {
 			icon: 'pi pi-exclamation-triangle',
 			accept: () => {
 				 //confirm action
-				 this.service.delete(id).subscribe();
+				 this.service.delete(id).subscribe(
+					{
+						next: (collection) => this.service.messagingService.add(createSuccessMessage('Collection Succesfully Removed')),
+						error: (error: HttpErrorResponse) => this.service.messagingService.add(createErrorMessage(error))
+					}
+				 );
 			},
 			reject: () => {
 				 //reject action

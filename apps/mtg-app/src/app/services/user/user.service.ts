@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { CreateProfileDto, UpdateProfileDto, UserState } from './user.models';
 import { UserStore } from './user.store';
+import { createErrorMessage, createSuccessMessage } from '../../shared/utils/message.helpers';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -27,10 +28,11 @@ export class UserService {
 			.subscribe({
 				next: (userState: UserState) => {
 					this.userStore.update(state => ({...state, ...userState}));
+					this.messageService.add(createSuccessMessage('Profile Created!'));
 					this.router.navigate(['my-account']);
 				},
 				error: (error: HttpErrorResponse) => {
-					this.messageService.add({ key: 'tc', severity: 'error', summary: 'error', detail: error.error.message, });
+					this.messageService.add(createErrorMessage(error));
 					this.userStore.update(state => ({ ...state, isLoading: false }));
 				},
 				complete: () => this.userStore.update(state => ({ ...state, isLoading: false }))
@@ -54,8 +56,21 @@ export class UserService {
 		this.userStore.update(state);
 	}
 
-	updateProfile(updateProfileDto: UpdateProfileDto) {
-		//
+	updateProfile(updateProfileDto: UpdateProfileDto, isOnlyTheme: boolean = false) {
+		this.userStore.update(state => ({ ...state, isLoading: true }));
+		this.http.patch<UserState>(this.baseUrl + 'update-profile', updateProfileDto)
+			.pipe(first())
+			.subscribe({
+				next: (userState: UserState) => {
+					if (!isOnlyTheme) this.messageService.add(createSuccessMessage('Profile Updated!'));
+					this.userStore.update(state => ({...state, ...userState}));
+				},
+				error: (error: HttpErrorResponse) => {
+					this.messageService.add(createErrorMessage(error));
+					this.userStore.update(state => ({ ...state, isLoading: false }));
+				},
+				complete: () => this.userStore.update(state => ({ ...state, isLoading: false }))
+			})
 	}
 
 	reset() {

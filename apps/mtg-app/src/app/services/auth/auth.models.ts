@@ -10,20 +10,27 @@ export interface CreateUserCommand extends UserCredentials{
 export interface AuthState {
 	isLoading: boolean;
 	//JWT
-	username: string;
-	accessToken: string;
-	userType: string;
+	username: string | null;
+	accessToken: string | null;
+	userType: string | null;
 	exp: number;
-	userId?: string;
+	userId: string | null;
 }
 
 
 export function createInitialState(): AuthState {
 	return {
-		username: '',
-		accessToken: '',
-		userType: '',
+		username: null,
+		accessToken: null,
+		userType: null,
 		exp: 0,
 		isLoading: false,
+		userId: null
 	};
+}
+
+export interface UpdatePasswordDto {
+	oldPassword: string;
+	newPassword: string;
+	repeatNewPassword: string;
 }

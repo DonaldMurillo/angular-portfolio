@@ -11,8 +11,9 @@ import { AuthState } from './app/services/auth/auth.models';
 
 // AKITA PERSIST STORAGE
 const storage = persistState({
-	key: 'mtgapp-persist',
-	include: ['auth', 'user'],
+	key: 'authStore',
+	include: ['auth'], //DO NOT USE AUTH AS A NAME
+
 	preStorageUpdate(storeName: string, state: { accessToken: string; exp: number; userType: string; }) {
 		// SAVE THE TOKEN AND EXPIRATION
 		if (storeName === 'auth') {
@@ -27,6 +28,7 @@ const storage = persistState({
 	},
 	preStoreUpdate(storeName: string, state: { accessToken: string; }) {
 		// DECODES THE TOKEN AND REHYDRATES THE STORE
+		console.log(storeName,state)
 		if (storeName === 'auth') {
 			const authUser = jwt_decode<AuthState>(state.accessToken);
 			return { ...authUser, accessToken: state.accessToken, userType: authUser.userType ?? 'user' };
@@ -35,7 +37,15 @@ const storage = persistState({
 	},
 });
 
-const providers = [{ provide: 'persistStorage', useValue: storage }];
+const userStorage = persistState({
+	key: 'userStore',
+	include: ['user'],
+})
+
+const providers = [
+	{ provide: 'authPersistStorage', useValue: storage, multi: true },
+	{ provide: 'userPersistStorage', useValue: userStorage, multi: true },
+];
 
 
 if (environment.production) {

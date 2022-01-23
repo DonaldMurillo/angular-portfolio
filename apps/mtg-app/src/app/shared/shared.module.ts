@@ -9,6 +9,7 @@ import { YesNoPipe } from './pipes/yes-no.pipe';
 import {ConfirmationService} from 'primeng/api';
 import { CardInCollectionDirective } from './directives/card-in-collection.directive';
 import { CollectionIconComponent } from './components/collection-icon/collection-icon.component';
+import { ScrollTopComponent } from './components/scroll-top/scroll-top.component';
 
 const MODULES = [
 	PRIME_MODULES,
@@ -22,11 +23,12 @@ const MODULES = [
 const DECLARATIONS = [
 	YesNoPipe, 
 	CardInCollectionDirective, 
-	CollectionIconComponent
+	CollectionIconComponent,
+	ScrollTopComponent
 ]
 
 @NgModule({
-	declarations: [DECLARATIONS],
+	declarations: [DECLARATIONS,],
 	imports: [
 		MODULES,
 	],

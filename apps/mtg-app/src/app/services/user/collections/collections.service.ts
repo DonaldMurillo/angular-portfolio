@@ -10,7 +10,7 @@ import { CollectionsStore, CollectionsState } from './collections.store';
 @Injectable({ providedIn: 'root' })
 export class CollectionsService extends NgEntityService<CollectionsState> {
 
-	constructor(protected override store: CollectionsStore, private messagingService: MessageService) {
+	constructor(protected override store: CollectionsStore, public messagingService: MessageService) {
 		super(store);
 	}
 

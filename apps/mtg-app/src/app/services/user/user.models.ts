@@ -25,6 +25,15 @@ export function createInitialState(): UserState {
 	}
 };
 
+export interface PasswordCheck {
+	hasLowercase: boolean;
+	hasUppercase: boolean;
+	hasNumber: boolean;
+	hasSymbol: boolean;
+	hasLength: boolean;
+	passwordsMatch: boolean;
+}
+
 
 export type CreateProfileDto = Omit<UserState, 'id' | 'avatarImage' | 'isLoading'>
-export type UpdateProfileDto = Omit<UserState, 'avatarImage' | 'isLoading'>
+export type UpdateProfileDto = Partial<Omit<UserState, 'avatarImage' | 'isLoading'>>

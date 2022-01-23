@@ -26,63 +26,63 @@ export class AuthService {
 		return this.signIn(createUserDto, UserType.user);
 	}
 
-  findOne(username: string) {
+	findOne(username: string) {
 		return this.userRepository.findOne({ username });
 	}
 
 	async updatePassword(user: User, updateUserPasswordDto: UpdateUserPasswordDto) {
-    //validate user exist and retrieve information
-    const actualUser = await this.findOne(user.username);
-    //check if user exist
-    if (!actualUser){
-      throw new NotFoundException;
-    }
-    //compare received new passwords
-    if(updateUserPasswordDto.newPassword !== updateUserPasswordDto.repeatNewPassword){
-      throw new NotAcceptableException;
-    }
-    //compare new and old password not to match
-    if(updateUserPasswordDto.oldPassword !== updateUserPasswordDto.newPassword){
-      throw new NotAcceptableException;
-    }
+		//validate user exist and retrieve information
+		const actualUser = await this.findOne(user.username);
+		//check if user exist
+		if (!actualUser) {
+			throw new NotFoundException;
+		}
+		//compare received new passwords
+		if (updateUserPasswordDto.newPassword !== updateUserPasswordDto.repeatNewPassword) {
+			throw new NotAcceptableException;
+		}
+		//compare new and old password not to match
+		if (updateUserPasswordDto.oldPassword === updateUserPasswordDto.newPassword) {
+			throw new NotAcceptableException;
+		}
 
-    //compare old password
-    if(!await this.comparePassword(updateUserPasswordDto.oldPassword, actualUser.password)){
-      throw new NotAcceptableException;
-    }
+		//compare old password
+		if (!await this.comparePassword(updateUserPasswordDto.oldPassword, actualUser.password)) {
+			throw new NotAcceptableException;
+		}
 
-    //update password
-    const salt = await bcrypt.genSalt();
-    actualUser.password = await bcrypt.hash(updateUserPasswordDto.newPassword, salt);
-    //save and return
-    return await tryAndSaveEntity(actualUser, this.userRepository);
+		//update password
+		const salt = await bcrypt.genSalt();
+		actualUser.password = await bcrypt.hash(updateUserPasswordDto.newPassword, salt);
+		//save and return
+		return await tryAndSaveEntity(actualUser, this.userRepository);
 	}
 
-  //not enabled on controller
-  async updateEmail(user: User, newEmail: string) {
-    //validate new email is an email
-    if(!isEmail(newEmail)){
-      throw new NotAcceptableException;
-    }
+	//not enabled on controller
+	async updateEmail(user: User, newEmail: string) {
+		//validate new email is an email
+		if (!isEmail(newEmail)) {
+			throw new NotAcceptableException;
+		}
 
-    //validate user exist and retrieve information
-    const actualUser = await this.findOne(user.username);
-    if (!actualUser){
-      throw new NotFoundException;
-    }
-    //validate new email is not assigned to another user
-    const emailUser = await this.userRepository.findOne({email: newEmail});
-    if (emailUser){
-      throw new NotAcceptableException;
-    }
+		//validate user exist and retrieve information
+		const actualUser = await this.findOne(user.username);
+		if (!actualUser) {
+			throw new NotFoundException;
+		}
+		//validate new email is not assigned to another user
+		const emailUser = await this.userRepository.findOne({ email: newEmail });
+		if (emailUser) {
+			throw new NotAcceptableException;
+		}
 
-    //update email
-    actualUser.email = newEmail;
-    //save and return
-    return await tryAndSaveEntity(actualUser, this.userRepository);
+		//update email
+		actualUser.email = newEmail;
+		//save and return
+		return await tryAndSaveEntity(actualUser, this.userRepository);
 	}
 
- private async comparePassword(password: string, hashedPassword: string): Promise<boolean> {
+	private async comparePassword(password: string, hashedPassword: string): Promise<boolean> {
 		return bcrypt.compare(password, hashedPassword);
 	}
 
@@ -103,9 +103,9 @@ export class AuthService {
 		}
 	}
 
-  //To Be implement on/called by from userProfile Module
-  //remove(user: User) {
-  //  return this.userRepository.delete(user);
+	//To Be implement on/called by from userProfile Module
+	//remove(user: User) {
+	//  return this.userRepository.delete(user);
 	//}
 
 

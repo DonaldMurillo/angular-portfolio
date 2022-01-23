@@ -39,7 +39,6 @@
 			(unSelect)="selected = null"
 			(addToCollection)="openDialog()">
 		</ap-card-preview>
-		
 		<!-- EMPTY LIST -->
 		<div *ngIf="!results?.length && (isLoading$ | async) === false">{{hasSearched ?'No results' : ''}}</div>
 	</div>

@@ -13,6 +13,7 @@ import { CardPreviewComponent } from './search/card-preview/card-preview.compone
 import { UpdatePasswordComponent } from './user/update-password/update-password.component';
 import { PublicCollectionsComponent } from './public-collections/public-collections.component';
 import { AboutComponent } from './about/about.component';
+import { HomeComponent } from './home/home.component';
 
 const COMPONENTS = [
 	NavBarComponent, 
@@ -29,7 +30,7 @@ const COMPONENTS = [
 ]
 
 @NgModule({
-	declarations: [COMPONENTS, PublicCollectionsComponent, AboutComponent],
+	declarations: [COMPONENTS, PublicCollectionsComponent, AboutComponent, HomeComponent],
 	imports: [
 		SharedModule
 	],

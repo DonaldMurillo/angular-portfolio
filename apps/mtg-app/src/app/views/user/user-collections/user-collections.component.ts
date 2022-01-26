@@ -83,7 +83,7 @@ export class UserCollectionsComponent implements OnInit {
 	}
 
 	getCollectionLink(collection: Collection) {
-		return encodeURI(`${environment.baseUrl}/collections/${this.userQuery.getValue().nickname}/${collection.name}`)
+		return encodeURI(`${environment.baseWebUrl}/collections/${this.userQuery.getValue().nickname}/${collection.name}`)
 	}
 
 	linkCopy(link: string) {

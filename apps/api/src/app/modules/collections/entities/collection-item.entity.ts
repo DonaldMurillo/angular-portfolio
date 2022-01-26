@@ -51,7 +51,7 @@ export class CollectionItem extends BaseEntity {
   lang: string
 
 
-  @ManyToOne(() => Collection, collection => collection.items, { onDelete: 'CASCADE'})
+  @ManyToOne(() => Collection, collection => collection.items, { onDelete: 'CASCADE' })
   collection: Collection;
 
 }

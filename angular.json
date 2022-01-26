@@ -49,6 +49,18 @@
             "jestConfig": "apps/api/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "compodoc": {
+          "builder": "@twittwer/compodoc:compodoc",
+          "options": {
+            "tsConfig": "apps/api/tsconfig.app.json",
+            "outputPath": "dist/compodoc/api"
+          },
+          "configurations": {
+            "json": {
+              "exportFormat": "json"
+            }
+          }
         }
       },
       "tags": []
@@ -169,6 +181,18 @@
           "options": {
             "jestConfig": "apps/mtg-app/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "compodoc": {
+          "builder": "@twittwer/compodoc:compodoc",
+          "options": {
+            "tsConfig": "apps/mtg-app/tsconfig.editor.json",
+            "outputPath": "dist/compodoc/mtg-app"
+          },
+          "configurations": {
+            "json": {
+              "exportFormat": "json"
+            }
           }
         }
       },

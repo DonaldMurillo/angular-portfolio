@@ -11,6 +11,7 @@ import { UpdatePasswordComponent } from './views/user/update-password/update-pas
 import { PublicCollectionsComponent } from './views/public-collections/public-collections.component';
 import { AboutComponent } from './views/about/about.component';
 import { HomeComponent } from './views/home/home.component';
+import { UserCollectionsUpdateComponent } from './views/user/user-collections-update/user-collections-update.component';
 
 //https://angular.io/guide/lazy-loading-ngmodules
 //ng generate module customers --route customers --module app.module
@@ -29,6 +30,7 @@ const routes: Routes = [
 		{ path: '', component: UserProfileComponent, pathMatch: 'full' },
 		{ path: 'collections', component: UserCollectionsComponent },
 	]},
+	{ path: 'user/:userId/my-account/collections/:collectionId', component: UserCollectionsUpdateComponent },
 
 	{ path: 'collections/:userNickname/:collectionName', component: PublicCollectionsComponent, pathMatch: 'full' },
 

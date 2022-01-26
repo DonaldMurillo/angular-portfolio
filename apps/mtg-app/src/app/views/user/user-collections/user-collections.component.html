@@ -2,7 +2,7 @@
 	<!-- NEW COLLECTION -->
 	<p-accordionTab header="New Collection">
 		<section class="form-container accordion" [formGroup]="form">
-			<!-- USERNAME -->
+			<!-- COLLECTION NAME -->
 			<div class="p-field">
 				<label for="name">Collection Name</label>
 				<input id="name" type="text" aria-describedby="name-help" pInputText formControlName="name" maxlength="20"
@@ -46,7 +46,7 @@
 						</button>
 						<!-- CONTINUE -->
 						<button pButton pRipple type="button" [loading]="(isLoading$ | async) ?? false" label="Edit"
-							class="p-button-raised p-button-sm" (click)="update(collection.id)">
+							class="p-button-raised p-button-sm" [routerLink]="[collection.id]">
 						</button>
 					</div>
 				</ng-template>

@@ -76,18 +76,8 @@ export class UserCollectionsComponent implements OnInit {
 		});
 	}
 
-	update(id?: string) {
-		if (!id) return;
-		return;
-		this.routerHelper.router.navigate([id])
-	}
-
 	getCollectionLink(collection: Collection) {
 		return encodeURI(`${environment.baseWebUrl}/collections/${this.userQuery.getValue().nickname}/${collection.name}`)
-	}
-
-	linkCopy(link: string) {
-
 	}
 
 	copyToClipboard = (str: string) => {

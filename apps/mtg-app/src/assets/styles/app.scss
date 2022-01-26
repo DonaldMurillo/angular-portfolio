@@ -332,3 +332,28 @@ body {
 		text-align: center;
 	}
 }
+
+.update-card {
+	display: grid;
+	grid-template-columns: 20% 50% 30%;
+	margin-bottom: 1rem;
+
+	.update-card-text {
+		padding: 0rem 1rem;
+		margin: auto;
+	}
+
+	.update-card-buttons {
+		display: flex;
+		justify-content: space-around;
+		button {
+			margin: auto;
+			width: 1.5rem;
+			height: 1rem!important;
+		}
+	}
+
+	&.even {
+		background-color: var(--surface-d);
+	}
+}

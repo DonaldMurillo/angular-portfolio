@@ -12,6 +12,7 @@ export class CollectionsService extends NgEntityService<CollectionsState> {
 
 	constructor(protected override store: CollectionsStore, public messagingService: MessageService) {
 		super(store);
+		this.get().pipe(first()).subscribe();
 	}
 
 	reset() {
@@ -35,6 +36,30 @@ export class CollectionsService extends NgEntityService<CollectionsState> {
 				next: item => {
 					this.store.update(id, entity => ({...entity, items: entity.items.concat(item)}));
 					this.messagingService.add(createSuccessMessage('Item added to Collection'));
+				}
+			})
+	}
+
+	updateCardCount(quantity: number, cardId: string, collectionId: string) {
+
+		if (quantity === 0) this.removeCardFromCollection(cardId, collectionId);
+		else this.getHttp().patch<CollectionItem>(`${this.baseUrl}/collections/${collectionId}/item/${cardId}`, { quantity })
+				.pipe(first())
+				.subscribe({
+					next: item => {
+						this.store.update(collectionId, entity => ({...entity, items: entity.items.map(i => i.id === item.id ? ({...i, quantity: item.quantity}) : i)}));
+						this.messagingService.add(createSuccessMessage('Item added to Collection'));
+					}
+				})
+	}
+
+	removeCardFromCollection(cardId: string, collectionId: string) {
+		this.getHttp().delete(`${this.baseUrl}/collections/${collectionId}/item/${cardId}`)
+			.pipe(first())
+			.subscribe({
+				next: () => {
+					this.store.update(collectionId, entity => ({...entity, items: entity.items.filter(item => item.id !== cardId)}));
+					this.messagingService.add(createSuccessMessage('Item removed from Collection'));
 				}
 			})
 	}

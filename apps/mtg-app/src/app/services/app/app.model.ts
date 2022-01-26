@@ -1,5 +1,3 @@
-import { MenuItem } from "primeng/api";
-
 export type AppTheme = 'light' | 'dark'
 
 export interface AppState {
@@ -8,6 +6,6 @@ export interface AppState {
 
 export function createInitialState(): AppState {
 	return {
-		theme: 'light',
+		theme: 'dark',
 	};
 }

@@ -140,7 +140,9 @@ export class CollectionsService {
 
 		const updatedCollectionItem = { ...updateCollectionItemDto, collection: existCollection, id: itemId };
 
-		return tryAndSaveEntity(updatedCollectionItem, this.collectionItemRepository);
+		const { collection, ...updatedItem } = await tryAndSaveEntity(updatedCollectionItem, this.collectionItemRepository);
+
+		return updatedItem
 	}
 
 	async removeCollectionItem(user: User, collectionId: string, itemId: string) {

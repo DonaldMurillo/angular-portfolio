@@ -1,0 +1,53 @@
+<div class="public-collection" *ngIf="currentCollection$ | async; let collection">
+	<h2 class="public-collection-title">
+
+		Collection {{collection?.name}}
+	</h2>
+
+	<section class="form-container" [formGroup]="form">
+		<!-- COLLECTION NAME -->
+		<div class="p-field">
+			<label for="name">Collection Name</label>
+			<input id="name" type="text" aria-describedby="name-help" pInputText formControlName="name" maxlength="20"
+				autocomplete="off" />
+			<small id="name-help" class="p-error" *ngIf="form.get('name')?.dirty && form.get('name')?.invalid">Must be
+				at least 4 characterslong.</small>
+		</div>
+
+		<!-- SHOW TRADES -->
+		<div class="p-field">
+			<label for="tradeable">Is Tradeable</label>
+			<p-selectButton [options]="tradeOptions" formControlName="tradeable" optionLabel="label" optionValue="value">
+			</p-selectButton>
+		</div>
+
+		<!-- CONTINUE -->
+		<button pButton pRipple type="button" [loading]="(isLoading$ | async) ?? false" label="Update"
+			class="p-button-raised continue-button" (click)="update()">
+		</button>
+	</section>
+
+	<section class="form-container">
+		<div *ngFor="let item of collection?.items; let even = even" class="update-card" [class.even]="even">
+			<img [src]="item.imageUriNormal" alt="">
+			<div class="update-card-text">
+				<div>
+					{{item.name}}
+				</div>
+				<small>
+					Count: {{item.quantity}}
+				</small>
+			</div>
+			<div class="update-card-buttons">
+				<button pButton pRipple type="button" icon="pi pi-plus" 
+					class="p-button-rounded p-button-text" (click)="addOne(item)"></button>
+				<button pButton pRipple type="button" icon="pi pi-minus"
+					class="p-button-rounded p-button-text p-button-warning" (click)="removeOne(item)"></button>
+				<button pButton pRipple type="button" icon="pi pi-trash"
+					class="p-button-rounded p-button-text p-button-danger" (click)="removeItem(item.id)"></button>
+			</div>
+		</div>
+
+	</section>
+	<br><br><br>
+</div>

@@ -14,6 +14,7 @@ import { UpdatePasswordComponent } from './user/update-password/update-password.
 import { PublicCollectionsComponent } from './public-collections/public-collections.component';
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
+import { UserCollectionsUpdateComponent } from './user/user-collections-update/user-collections-update.component';
 
 const COMPONENTS = [
 	NavBarComponent, 
@@ -30,7 +31,7 @@ const COMPONENTS = [
 ]
 
 @NgModule({
-	declarations: [COMPONENTS, PublicCollectionsComponent, AboutComponent, HomeComponent],
+	declarations: [COMPONENTS, PublicCollectionsComponent, AboutComponent, HomeComponent, UserCollectionsUpdateComponent],
 	imports: [
 		SharedModule
 	],

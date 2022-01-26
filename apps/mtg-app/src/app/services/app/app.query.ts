@@ -41,6 +41,11 @@ export class AppQuery extends Query<AppState> {
 	private setMenu(theme: AppTheme, userId?: string): MenuItem[] {
 		const menu = [
 			{
+				label: `Search`,
+				icon: `pi pi-search`,
+				routerLink: `search`
+			},
+			{
 				label: `${theme === 'dark' ? 'Light Mode' : 'Dark Mode'}`,
 				icon: `pi ${theme === 'dark' ? 'pi-sun' : 'pi-moon'}`,
 				command: () => {

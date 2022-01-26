@@ -10,6 +10,7 @@ import { RouterHelperService } from '../../../services/helpers/router-helper.ser
 import { ConfirmationService } from 'primeng/api';
 import { createErrorMessage, createSuccessMessage } from '../../../shared/utils/message.helpers';
 import { HttpErrorResponse } from '@angular/common/http';
+import { environment } from 'apps/mtg-app/src/environments/environment';
 
 @Component({
 	selector: 'ap-user-collections',
@@ -29,7 +30,7 @@ export class UserCollectionsComponent implements OnInit {
 	isLoading$!: Observable<boolean>;
 
 	constructor(
-		private query: CollectionsQuery, 
+		private query: CollectionsQuery,
 		private service: CollectionsService,
 		private userQuery: UserQuery,
 		private routerHelper: RouterHelperService,
@@ -61,23 +62,39 @@ export class UserCollectionsComponent implements OnInit {
 			message: 'This action is irreversable. Are you sure that you want to proceed?',
 			icon: 'pi pi-exclamation-triangle',
 			accept: () => {
-				 //confirm action
-				 this.service.delete(id).subscribe(
+				//confirm action
+				this.service.delete(id).subscribe(
 					{
 						next: (collection) => this.service.messagingService.add(createSuccessMessage('Collection Succesfully Removed')),
 						error: (error: HttpErrorResponse) => this.service.messagingService.add(createErrorMessage(error))
 					}
-				 );
+				);
 			},
 			reject: () => {
-				 //reject action
+				//reject action
 			}
-	  });
+		});
 	}
 
 	update(id?: string) {
-		if (!id) return; 
+		if (!id) return;
 		return;
 		this.routerHelper.router.navigate([id])
 	}
+
+	getCollectionLink(collection: Collection) {
+		return encodeURI(`${environment.baseWebUrl}/collections/${this.userQuery.getValue().nickname}/${collection.name}`)
+	}
+
+	linkCopy(link: string) {
+
+	}
+
+	copyToClipboard = (str: string) => {
+		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+			this.service.messagingService.add(createSuccessMessage('Link copied to clipboard!'))
+			return navigator.clipboard.writeText(str);
+		}
+		return Promise.reject('The Clipboard API is not available.');
+	};
 }

@@ -1,12 +1,16 @@
 <nav class="app-nav" *ngIf="theme$ | async; let theme">
 
 	<div class="app-nav-section">
-		<a routerLink="search">
+		<a routerLink="home">
 			<!-- <i class="pi pi-user"></i> -->
 			MTG App
 		</a>
 	</div>
 	<div fxHide.lt-md="{true}" class="app-nav-section">
+		<a class="clickable" routerLink="search">
+			<i class="pi pi-search"></i>
+			Search
+		</a>
 		<a class="clickable" (click)="toggleTheme()">
 			<i class="pi {{theme === 'dark' ? 'pi-sun' : 'pi-moon'}}"></i>
 			{{theme === 'dark' ? 'Light Mode': 'Dark Mode'}}

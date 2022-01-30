@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { NgEntityService } from '@datorama/akita-ng-entity-service';
 import { MessageService } from 'primeng/api';
-import { first, pipe } from 'rxjs';
+import { first } from 'rxjs';
 import { createSuccessMessage } from '../../../shared/utils/message.helpers';
+import { AuthQuery } from '../../auth/auth.query';
 import { ScryfallCard } from '../../scryfall-search/scyfall-search.models';
 import { CollectionItem, CreateItemDto } from './collection.model';
 import { CollectionsStore, CollectionsState } from './collections.store';
@@ -10,8 +11,9 @@ import { CollectionsStore, CollectionsState } from './collections.store';
 @Injectable({ providedIn: 'root' })
 export class CollectionsService extends NgEntityService<CollectionsState> {
 
-	constructor(protected override store: CollectionsStore, public messagingService: MessageService) {
+	constructor(protected override store: CollectionsStore, public messagingService: MessageService, private authQuery: AuthQuery) {
 		super(store);
+		if (!this.authQuery.getValue().accessToken) return;
 		this.get().pipe(first()).subscribe();
 	}
 

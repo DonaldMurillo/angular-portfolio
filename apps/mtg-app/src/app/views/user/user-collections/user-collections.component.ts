@@ -6,11 +6,10 @@ import { Component, OnInit } from '@angular/core';
 import { CollectionsQuery } from '../../../services/user/collections/collections.query';
 import { UserQuery } from '../../../services/user/user.query';
 import { Collection } from '../../../services/user/collections/collection.model';
-import { RouterHelperService } from '../../../services/helpers/router-helper.service';
 import { ConfirmationService } from 'primeng/api';
 import { createErrorMessage, createSuccessMessage } from '../../../shared/utils/message.helpers';
 import { HttpErrorResponse } from '@angular/common/http';
-import { environment } from 'apps/mtg-app/src/environments/environment';
+import { environment } from '../../../../../../../apps/mtg-app/src/environments/environment';
 
 @Component({
 	selector: 'ap-user-collections',
@@ -33,7 +32,6 @@ export class UserCollectionsComponent implements OnInit {
 		private query: CollectionsQuery,
 		private service: CollectionsService,
 		private userQuery: UserQuery,
-		private routerHelper: RouterHelperService,
 		private confirmationService: ConfirmationService) { }
 
 	ngOnInit() {
@@ -47,9 +45,9 @@ export class UserCollectionsComponent implements OnInit {
 		if (this.form.invalid) return;
 		this.service.add<Collection>({ ...this.form.value, profileId: this.userQuery.getValue().id })
 			.subscribe({
-				next: (collection) => {
-					this.service.messagingService.add(createSuccessMessage('Collection Succesfully Created'))
-					this.form.reset({ tradeable: false })
+				next: () => {
+					this.service.messagingService.add(createSuccessMessage('Collection Succesfully Created'));
+					this.form.reset({ tradeable: false });
 				},
 				error: (error: HttpErrorResponse) => this.service.messagingService.add(createErrorMessage(error))
 			});
@@ -65,7 +63,7 @@ export class UserCollectionsComponent implements OnInit {
 				//confirm action
 				this.service.delete(id).subscribe(
 					{
-						next: (collection) => this.service.messagingService.add(createSuccessMessage('Collection Succesfully Removed')),
+						next: () => this.service.messagingService.add(createSuccessMessage('Collection Succesfully Removed')),
 						error: (error: HttpErrorResponse) => this.service.messagingService.add(createErrorMessage(error))
 					}
 				);
@@ -80,11 +78,27 @@ export class UserCollectionsComponent implements OnInit {
 		return encodeURI(`${environment.baseWebUrl}/collections/${this.userQuery.getValue().nickname}/${collection.name}`)
 	}
 
-	copyToClipboard = (str: string) => {
-		if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
-			this.service.messagingService.add(createSuccessMessage('Link copied to clipboard!'))
+	copyToClipboard = async (str: string) => {
+		// IF THE DEVICE HAS NATIVE SHARING CAPABILITIES THEN USE IT
+		if (navigator.share) {
+			try {
+				await navigator.share({
+					title: 'Share collection',
+					url: str
+				});
+			} catch (message) {
+				return console.error(message);
+			}
+		}
+		// ELSE COPY TO CLIPBOARD
+		else if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+			this.service.messagingService.add(createSuccessMessage('Link copied to clipboard!'));
 			return navigator.clipboard.writeText(str);
 		}
-		return Promise.reject('The Clipboard API is not available.');
+		else {
+			// shareDialog.classList.add('is-open');
+			return Promise.reject('The Clipboard API is not available.');
+		}
+
 	};
 }

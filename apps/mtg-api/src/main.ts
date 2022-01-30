@@ -22,7 +22,7 @@ async function bootstrap() {
 	const app = await NestFactory.create<NestExpressApplication>(
 		AppModule,
 		new ExpressAdapter(),
-		{ cors: false }
+		{ cors: true }
 	);
 	const globalPrefix = 'api';
 	const reflector = app.get(Reflector);
@@ -39,7 +39,7 @@ async function bootstrap() {
 
 	const swagger = setupSwagger(app, Number(port), globalPrefix); // THIS LINE HAS TO BE AFTER THE GLOBAL PREFIX
 
-	await app.listen(port, '0.0.0.0');
+	await app.listen(port);
 	Logger.log(
 		`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
 	);

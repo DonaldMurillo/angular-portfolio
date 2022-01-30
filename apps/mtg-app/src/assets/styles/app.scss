@@ -4,16 +4,29 @@ html {
 	color: var(--text-color);
 	font-family: var(--font-family);
 	font-size: 16px;
+	a {
+		color: var(--text-color);
+		text-decoration: none;
+	}
 }
 
 body {
-	height: 100vh;
+	height: 100vh; 
 	width: 100vw;
 	overflow: hidden;
+
+	// NAV BAR HIDDING FIX
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+
 	margin: auto;
 	> * {
 		display: block;
 	}
+
+	&::-webkit-scrollbar {
+		display: none;
+	}	 
 }
 
 // utils

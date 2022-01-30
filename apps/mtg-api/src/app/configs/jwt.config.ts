@@ -6,8 +6,8 @@ import { JwtModuleOptions } from '@nestjs/jwt';
  * @param config {ConfigService}
  */
 export const jwtConfig = (config: ConfigService): JwtModuleOptions => ({
-  secret: config.get('TOKEN_SECRET'),
-  signOptions: {
-    expiresIn: config.get('ACCESS_TOKEN_EXPIRES_IN'),
-  },
+	secret: config.get('TOKEN_SECRET'),
+	signOptions: {
+		expiresIn: config.get('ACCESS_TOKEN_EXPIRES_IN'),
+	},
 });

@@ -9,4 +9,5 @@ import { Collection } from '../../../services/user/collections/collection.model'
 export class CollectionIconComponent {
 
 	@Input() collection!: Collection;
+	@Input() userId!: string | null;
 }

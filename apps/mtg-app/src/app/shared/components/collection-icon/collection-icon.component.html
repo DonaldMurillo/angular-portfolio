@@ -1,8 +1,10 @@
-<span>
+<span *ngIf="userId">
 	<button pButton pRipple 
 		type="button" 
 		icon="pi pi-box" 
-		class="p-button-rounded p-button-text">
+		class="p-button-rounded p-button-text"
+		routerLink="{{'/user/' + userId + '/my-account/collections/' + collection?.id}}"
+		>
 	</button>
 	<small>{{collection?.name}}</small>
 </span>

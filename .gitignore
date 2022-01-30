@@ -43,6 +43,7 @@ Thumbs.db
 #Enviroment Variables
 .env
 .env.server
+.env.local
 
 
 /apps/api/src/app/database/factories

@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, ComponentRef, Directive, Input, OnDestroy, OnInit, ViewContainerRef } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
+import { AuthQuery } from '../../services/auth/auth.query';
 import { ScryfallCard } from '../../services/scryfall-search/scyfall-search.models';
 import { CollectionsQuery } from '../../services/user/collections/collections.query';
 import { CollectionIconComponent } from '../components/collection-icon/collection-icon.component';
@@ -14,7 +15,12 @@ export class CardInCollectionDirective implements OnInit, OnDestroy {
 
 	private destroy$ = new Subject();
 	private currentIcons: ComponentRef<CollectionIconComponent>[] = [];
-	constructor(private collectionQuery: CollectionsQuery, private viewRef: ViewContainerRef, private cdr: ChangeDetectorRef) { }
+	constructor(
+		private collectionQuery: CollectionsQuery, 
+		private viewRef: ViewContainerRef, 
+		private cdr: ChangeDetectorRef,
+		private auth: AuthQuery
+		) { }
 
 	ngOnInit(): void {
 		this.collectionQuery.selectAll()
@@ -31,6 +37,7 @@ export class CardInCollectionDirective implements OnInit, OnDestroy {
 					for (const col of foundCollections) {
 						const colIcon = this.viewRef.createComponent<CollectionIconComponent>(CollectionIconComponent);
 						colIcon.instance.collection = col;
+						colIcon.instance.userId = this.auth.getValue().userId;
 						this.currentIcons.push(colIcon);
 					}
 					this.cdr.detectChanges();

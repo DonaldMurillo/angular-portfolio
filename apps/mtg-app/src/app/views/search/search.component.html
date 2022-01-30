@@ -12,10 +12,12 @@
 				maxlength="20" 
 				autocomplete="off" 
 				pInputText 
+				placeholder="Enter at least 3 characters"
 				[(ngModel)]="searchTerm"
 				(keyup.enter)="search()"/>
 			<p-button icon="pi pi-search" [loading]="(isLoading$ | async) ?? false" (onClick)="search()"></p-button>
 		</div>
+		
 	</div>
 
 	<!-- CARD RESULT LIST -->

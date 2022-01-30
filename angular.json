@@ -98,6 +98,7 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "apps/mtg-app/src/favicon.ico",
+              "apps/mtg-app/src/favicon.png",
               "apps/mtg-app/src/assets",
               {
                 "glob": "**/*",

@@ -45,6 +45,7 @@ Thumbs.db
 .env.server
 .env.local
 
+/**/favicon.png
 
 /apps/api/src/app/database/factories
 /apps/api/src/app/database/seeds

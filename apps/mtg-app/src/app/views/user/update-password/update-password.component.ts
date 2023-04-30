@@ -19,8 +19,8 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
 	isLoading$!: Observable<boolean>;
 	passwordCheck!: PasswordCheck;
 
-	newPassword = new FormControl('', [Validators.required, Validators.pattern(this.pattern)]);
-	repeatNewPassword = new FormControl('', [Validators.required, Validators.pattern(this.pattern)]);
+	newPassword = new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.pattern(this.pattern)]});
+	repeatNewPassword = new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.pattern(this.pattern)]});
 
 	form: FormGroup = new FormGroup({
 		oldPassword: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]),

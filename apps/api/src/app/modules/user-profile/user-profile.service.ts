@@ -45,7 +45,7 @@ export class UserProfileService {
 	}
 
 	async findOneByUser(user: User) {
-		const userProfile = await this.userProfileRepository.findOne({ user });
+		const userProfile = await this.userProfileRepository.findOneBy({ user: { id: user.id } });
 		return userProfile;
 	}
 
@@ -58,7 +58,7 @@ export class UserProfileService {
 
 		//avoid creation of same nickname on many users
 		if (updateUserProfileDto.nickname && updateUserProfileDto.nickname !== userProfile.nickname) {
-			const checkProfile = await this.userProfileRepository.findOne({ where: { nickname: updateUserProfileDto.nickname } })
+			const checkProfile = await this.userProfileRepository.find({ where: { nickname: updateUserProfileDto.nickname } })
 			if (checkProfile) throw new NotAcceptableException();
 		}
 
@@ -77,7 +77,7 @@ export class UserProfileService {
 		}
 
 		//bring userProfile from db on transaction
-		const userProfile = await this.userProfileRepository.findOne({ user: dbUser });
+		const userProfile = await this.userProfileRepository.findOneBy({ user: { id: dbUser.id } });
 		if (!userProfile) {
 			//throw new UnauthorizedException();
 			throw new Error("No userProfile found");
@@ -115,30 +115,30 @@ export class UserProfileService {
 
 			// execute some operations on this transaction:
 			//select entity to be deleted by some value instead of sending full entity in case it has relationship properties
-      //verify there are items and collections to be deleted
-      if(collectionItems.length){
-        await queryRunner.manager.delete(CollectionItem, collectionItems);
-      }
-      if(collections.length){
-        await queryRunner.manager.delete(Collection, collections);
+			//verify there are items and collections to be deleted
+			if (collectionItems.length) {
+				await queryRunner.manager.delete(CollectionItem, collectionItems);
+			}
+			if (collections.length) {
+				await queryRunner.manager.delete(Collection, collections);
 
-      }
+			}
 			await queryRunner.manager.delete(UserProfile, { id: userProfile.id });
 			await queryRunner.manager.delete(User, { id: dbUser.id });
 			// commit transaction now:
 			await queryRunner.commitTransaction();
 		} catch (err) {
-      // since we have errors let's rollback changes we made
+			// since we have errors let's rollback changes we made
 			await queryRunner.rollbackTransaction();
-      // you need to release query runner which is manually created:
-      console.log(err);
-      throw new ConflictException;
+			// you need to release query runner which is manually created:
+			console.log(err);
+			throw new ConflictException;
 		} finally {
 
 			// you need to release query runner which is manually created:
 			await queryRunner.release();
 		}
-    return 'User Deleted';
+		return 'User Deleted';
 	}
 
 }

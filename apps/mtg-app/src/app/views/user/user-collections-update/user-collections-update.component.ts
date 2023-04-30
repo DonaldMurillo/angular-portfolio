@@ -44,13 +44,13 @@ export class UserCollectionsUpdateComponent implements OnInit {
 	update() {
 		this.form.markAllAsTouched();
 		if (this.form.invalid || !this.form.dirty) return;
-		this.service.update(this.collectionId, this.form.value, {method: HttpMethod.PATCH})
+		// TODO: FIX
+		this.service.update(this.collectionId, this.form.value as any, { method: HttpMethod.PATCH })
 			.pipe(first(), debounceTime(3000))
 			.subscribe({
 				next: () => this.service.messagingService.add(createSuccessMessage('InformaitonUpdated')),
 				error: (err) => this.service.messagingService.add(createErrorMessage(err))
 			})
-		console.log('here')
 	}
 
 	addOne(item: CollectionItem) {

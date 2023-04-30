@@ -19,7 +19,7 @@ export class CollectionsService {
 		private profileService: UserProfileService,
 		@InjectRepository(Collection) private collectionRepository: Repository<Collection>,
 		@InjectRepository(CollectionItem) private collectionItemRepository: Repository<CollectionItem>,
-    @InjectRepository(UserProfile) private userProfileRepository: Repository<UserProfile>
+		@InjectRepository(UserProfile) private userProfileRepository: Repository<UserProfile>
 
 	) { }
 
@@ -29,10 +29,10 @@ export class CollectionsService {
 		if (!userProfile || userProfile.id !== createCollectionDto.profileId) {
 			throw new UnauthorizedException();
 		}
-		const existingCollection = await this.collectionRepository.find({ where: { profile: userProfile, name: createCollectionDto.name } })
+		const existingCollection = await this.collectionRepository.find({ where: { profile: { id: userProfile.id }, name: createCollectionDto.name } })
 		//avoid creation of same collection name for one user
 		if (existingCollection.length) {
-			throw new NotAcceptableException({ message: 'Name already exists'});
+			throw new NotAcceptableException({ message: 'Name already exists' });
 		}
 		const collection = this.collectionRepository.create({ ...createCollectionDto, profile: userProfile });
 		const { profile, ...newCollection } = await tryAndSaveEntity(collection, this.collectionRepository);
@@ -45,7 +45,7 @@ export class CollectionsService {
 		if (!userProfile) {
 			throw new UnauthorizedException();
 		}
-		const collections = this.collectionRepository.find({ where: { profile: userProfile } })
+		const collections = this.collectionRepository.find({ where: { profile: { id: userProfile.id } } })
 
 		return await collections;
 
@@ -70,7 +70,7 @@ export class CollectionsService {
 	//update modifiable properties on collection
 	async update(user: User, id: string, updateCollectionDto: UpdateCollectionDto) {
 
-		const [previousCollection, userProfile]  = await this.findOne(user,id);
+		const [previousCollection, userProfile] = await this.findOne(user, id);
 
 		//check if name to be assigned is not in use for another collection
 		//same name can be used in case it is not other collection
@@ -92,19 +92,19 @@ export class CollectionsService {
 	//should cascade on both cases
 	async remove(user: User, id: string) {
 
-		const [collection] = await this.findOne(user,id);
+		const [collection] = await this.findOne(user, id);
 		return await this.collectionRepository.remove(collection);
 	}
 
 	//create a new item on a collection
 	async createCollectionItem(user: User, collectionId: string, createCollectionItemDto: CreateCollectionItemDto) {
 		//validate user exist
-		const [existCollection]  = await this.findOne(user, collectionId);
+		const [existCollection] = await this.findOne(user, collectionId);
 
 		const existItem = existCollection.items.find(col => col.scryfallId === createCollectionItemDto.scryfallId);
 		if (existItem) {
 			// IF EXISTS INCREMENT QUANTITY
-			return await tryAndSaveEntity({ ...existItem, quantity: existItem.quantity + 1}, this.collectionItemRepository);
+			return await tryAndSaveEntity({ ...existItem, quantity: existItem.quantity + 1 }, this.collectionItemRepository);
 		}
 
 		//save collectionItem
@@ -118,7 +118,7 @@ export class CollectionsService {
 	//empty throw error?
 	async findCollectionItem(user: User, collectionId: string, itemId: string) {
 
-		const [existCollection]  = await this.findOne(user, collectionId);
+		const [existCollection] = await this.findOne(user, collectionId);
 
 		const existItem = existCollection.items.find(col => col.id === itemId);
 		if (!existItem) {
@@ -131,7 +131,7 @@ export class CollectionsService {
 
 	async updateCollectionItem(user: User, collectionId: string, itemId: string, updateCollectionItemDto: UpdateCollectionItemDto) {
 
-		const [existCollection]  = await this.findOne(user, collectionId);
+		const [existCollection] = await this.findOne(user, collectionId);
 
 		const existItem = existCollection.items.find(col => col.id === itemId);
 		if (!existItem) {
@@ -147,7 +147,7 @@ export class CollectionsService {
 
 	async removeCollectionItem(user: User, collectionId: string, itemId: string) {
 
-		const [existCollection]  = await this.findOne(user, collectionId);
+		const [existCollection] = await this.findOne(user, collectionId);
 
 		//check if item to be deleted exist
 		const existItem = existCollection.items.find(col => col.id === itemId);
@@ -158,21 +158,21 @@ export class CollectionsService {
 		return await this.collectionItemRepository.delete({ id: itemId });
 	}
 
-  async share(userNickname: string, collectionName: string) {
+	async share(userNickname: string, collectionName: string) {
 
-    //verify shared user profile exists
-    const sharedUserProfile: UserProfile = await this.userProfileRepository.findOne({nickname: userNickname});
+		//verify shared user profile exists
+		const sharedUserProfile: UserProfile = await this.userProfileRepository.findOneBy({ nickname: userNickname });
 		if (!sharedUserProfile) {
 			throw new NotFoundException();
 		}
 
-    //verify collection exist, and also, it is shareable
+		//verify collection exist, and also, it is shareable
 		const collection = sharedUserProfile.collections.find(col => col.name === collectionName && col.tradeable === true);
 		if (!collection) {
 			throw new NotFoundException();
 		}
 
-    return collection;
+		return collection;
 
 	}
 

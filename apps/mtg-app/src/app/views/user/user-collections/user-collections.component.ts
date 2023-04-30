@@ -44,8 +44,10 @@ export class UserCollectionsComponent implements OnInit {
 
 	create() {
 		this.form.markAllAsTouched();
-		if (this.form.invalid) return;
-		this.service.add<Collection>({ ...this.form.value, profileId: this.userQuery.getValue().id })
+		const id = this.userQuery.getValue().id
+		if (this.form.invalid || !id) return;
+		//TODO: FIX
+		this.service.add<Collection>({ ...this.form.value as Collection, profileId: id })
 			.subscribe({
 				next: (collection) => {
 					this.service.messagingService.add(createSuccessMessage('Collection Succesfully Created'))

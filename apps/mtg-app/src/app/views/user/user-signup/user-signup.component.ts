@@ -19,11 +19,14 @@ export class UserSignupComponent implements OnInit, OnDestroy {
 	isLoading$!: Observable<boolean>;
 	passwordCheck!: PasswordCheck;
 
-	password = new FormControl('', [Validators.required, Validators.pattern(this.pattern)]);
-	cPassword = new FormControl('', [Validators.required, Validators.pattern(this.pattern)]);
+	password = new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.pattern(this.pattern)]});
+	cPassword = new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.pattern(this.pattern)]});
 
 	form: FormGroup = new FormGroup({
-		username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]),
+		username: new FormControl('', { 
+			validators: [Validators.required, Validators.minLength(4), Validators.maxLength(20)],
+			nonNullable: true
+		}),
 		email: new FormControl('', [Validators.email, Validators.required]),
 		password: this.password,
 		cPassword: this.cPassword,

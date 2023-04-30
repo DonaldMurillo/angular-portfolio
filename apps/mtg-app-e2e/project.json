@@ -1,0 +1,29 @@
+{
+	"name": "mtg-app-e2e",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "apps/mtg-app-e2e/src",
+	"projectType": "application",
+	"targets": {
+		"e2e": {
+			"executor": "@nrwl/cypress:cypress",
+			"options": {
+				"cypressConfig": "apps/mtg-app-e2e/cypress.json",
+				"devServerTarget": "mtg-app:serve:development"
+			},
+			"configurations": {
+				"production": {
+					"devServerTarget": "mtg-app:serve:production"
+				}
+			}
+		},
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": ["apps/mtg-app-e2e/**/*.{js,ts}"]
+			}
+		}
+	},
+	"tags": [],
+	"implicitDependencies": ["mtg-app"]
+}

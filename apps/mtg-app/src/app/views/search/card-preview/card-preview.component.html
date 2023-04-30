@@ -1,6 +1,6 @@
 
 <span class="card-prev-container" *ngIf="!_isSelected; else selectedTemp">
-	<img src="{{card?.imageUris?.small}}" alt="" class="card-image" (click)="clicked()">
+	<img src="{{card.imageUris?.small}}" alt="" class="card-image" (click)="clicked()">
 </span>
 
 <!-- IF SELECTED TEMPLATE -->
@@ -11,7 +11,7 @@
 		<!-- CARD PREVIEW BODY -->
 		<div class="card-prev-body">
 			<!-- CARD IMAGE -->
-			<img src="{{card?.imageUris?.small}}" alt="" class="card-prev-image" >
+			<img src="{{card.imageUris?.small}}" alt="" class="card-prev-image" >
 			<!-- ACTIONS -->
 			<div class="card-prev-actions">
 				<button pButton pRipple 

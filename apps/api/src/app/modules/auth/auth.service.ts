@@ -27,7 +27,7 @@ export class AuthService {
 	}
 
 	findOne(username: string) {
-		return this.userRepository.findOne({ username });
+		return this.userRepository.findOneBy({ username });
 	}
 
 	async updatePassword(user: User, updateUserPasswordDto: UpdateUserPasswordDto) {
@@ -71,7 +71,7 @@ export class AuthService {
 			throw new NotFoundException;
 		}
 		//validate new email is not assigned to another user
-		const emailUser = await this.userRepository.findOne({ email: newEmail });
+		const emailUser = await this.userRepository.findOneBy({ email: newEmail });
 		if (emailUser) {
 			throw new NotAcceptableException;
 		}
@@ -88,7 +88,7 @@ export class AuthService {
 
 	async signIn(dto: CredentialsDto, userType: UserType): Promise<{ accessToken: string, user: User }> {
 		const { username, password } = dto;
-		const user = (await this.userRepository.findOne({ username }));
+		const user = (await this.userRepository.findOneBy({ username }));
 		if (user && user.userType === userType && (await this.comparePassword(password, user.password))) {
 
 			// const isCustomer = user.type === UserType.CUSTOMER;

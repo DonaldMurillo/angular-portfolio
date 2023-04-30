@@ -8,7 +8,7 @@ export const GetUser = createParamDecorator((userType: string, ctx: ExecutionCon
 	const req = ctx.switchToHttp().getRequest();
 	const user = req.user;
 	if (user.userType !== userType) {
-      throw new UnauthorizedException();
-    }
+		throw new UnauthorizedException();
+	}
 	return user;
 });

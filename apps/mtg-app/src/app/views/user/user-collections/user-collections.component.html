@@ -8,7 +8,7 @@
 				<input id="name" type="text" aria-describedby="name-help" pInputText formControlName="name" maxlength="20"
 					autocomplete="off" />
 				<small id="name-help" class="p-error" *ngIf="form.get('name')?.dirty && form.get('name')?.invalid">Must be
-					at least 4 characterslong.</small>
+					at least 4 characters long.</small>
 			</div>
 
 			<!-- SHOW TRADES -->
@@ -31,7 +31,7 @@
 				<ng-template pTemplate="header">
 					{{collection.name}}
 				</ng-template>
-				<div>Cards: {{collection.items?.length ?? 0}}</div>
+				<div>Cards: {{collection?.items?.length}}</div>
 				<div>Tradeable: {{collection.tradeable | yesNo: 'proper'}}</div>
 				<div class="collection-link" 
 					(click)="copyToClipboard(getCollectionLink(collection))"

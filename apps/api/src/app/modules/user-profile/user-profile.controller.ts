@@ -61,7 +61,7 @@ export class UserProfileController {
 
 	//   @Get(':id')
 	//   findOne(@Param('id') id: string) {
-	//     return this.userProfileService.findOne(+id);
+	//     return this.userProfileService.findOneBy(+id);
 	//   }
 
 	//   @Patch(':id')
